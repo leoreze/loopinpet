@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Gerente IA</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/ai-manager.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+        <div class="sidebar-logo-header">
+          <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+            <div class="sidebar-brand-badge">
+              <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+              <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading">
+            <div class="page-title">Gerente IA</div>
+            <div class="page-subtitle">Inteligência operacional para agenda, atendimento e crescimento do pet shop.</div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>O Gerente IA cruzou agenda, atendimento e base de clientes para sugerir ações de ganho rápido.</p>
+                  <small>Agora</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Receita previsível</strong>
+                  <p>Pacotes recorrentes e confirmações pendentes são os dois maiores alavancadores no momento.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LP</span>
+              <span data-user-name>Administrador</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Administrador</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="ai-shell">
+          <section class="ai-hero">
+            <article class="card ai-hero-card">
+              <span class="ai-kicker">🤖 Gerente IA ativo</span>
+              <h2 data-ai-headline>Leitura inteligente da sua operação em tempo real.</h2>
+              <p data-ai-description>O Gerente IA transforma dados do sistema em decisões práticas para ocupação da agenda, retenção e crescimento da receita.</p>
+
+              <div class="ai-summary-grid">
+                <div class="ai-summary-tile">
+                  <strong data-summary-agenda>0</strong>
+                  <span>agendamentos previstos nos próximos 7 dias</span>
+                </div>
+                <div class="ai-summary-tile">
+                  <strong data-summary-pendentes>0</strong>
+                  <span>atendimentos pendentes de ação</span>
+                </div>
+                <div class="ai-summary-tile">
+                  <strong data-summary-faturado>R$ 0,00</strong>
+                  <span>faturamento consolidado em atendimentos finalizados</span>
+                </div>
+              </div>
+            </article>
+
+            <aside class="card ai-health-card">
+              <div class="ai-health-ring" data-health-ring style="--score-deg:0deg">
+                <strong data-health-score>0%</strong>
+              </div>
+              <h3>Score operacional</h3>
+              <p>Indicador sintético do Gerente IA para a saúde atual da unidade.</p>
+              <small data-health-caption>Carregando análise...</small>
+            </aside>
+          </section>
+
+          <section class="ai-grid">
+            <article class="card ai-list-card">
+              <h3 class="ai-section-title">Insights gerados</h3>
+              <div class="ai-list" data-insights-list></div>
+            </article>
+
+            <article class="card ai-list-card">
+              <h3 class="ai-section-title">Oportunidades priorizadas</h3>
+              <div class="ai-list" data-opportunities-list></div>
+            </article>
+          </section>
+
+          <section class="ai-grid">
+            <article class="card ai-list-card">
+              <h3 class="ai-section-title">Recomendações práticas</h3>
+              <div class="ai-list" data-recommendations-list></div>
+            </article>
+
+            <article class="card ai-list-card">
+              <h3 class="ai-section-title">Plano de ação do Gerente IA</h3>
+              <table class="ai-actions-table">
+                <thead>
+                  <tr>
+                    <th>Ação</th>
+                    <th>Status</th>
+                    <th>Atualizar</th>
+                  </tr>
+                </thead>
+                <tbody data-actions-body></tbody>
+              </table>
+              <div class="ai-feedback" data-ai-feedback></div>
+            </article>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+  <script type="module" src="../../assets/js/ai-manager.js"></script>
+</body>
+</html>

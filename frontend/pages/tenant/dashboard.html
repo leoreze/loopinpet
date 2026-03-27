@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Dashboard</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+  <div class="sidebar-logo-header">
+    <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+      <div class="sidebar-brand-badge">
+        <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+        <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+      </div>
+    </button>
+  </div>
+</div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading"><div class="page-title">Dashboard</div>
+          <div class="page-subtitle">Visão operacional do assinante white-label</div></div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
+                  <small>Há 5 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🔔</span>
+                <div>
+                  <strong>Lembrete operacional</strong>
+                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
+                  <small>Há 18 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Oportunidade de receita</strong>
+                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LE</span>
+              <span data-user-name>Leonidas</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Leonidas</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        
+        <div class="hero-band" data-onboarding-banner>
+          <div>
+            <h2>Seu painel já está pronto para ficar com a cara da sua marca.</h2>
+            <p>
+              Comece personalizando nome, logo, cores, contatos e identidade visual do sistema. Assim que essa configuração inicial for concluída, este aviso será ocultado automaticamente.
+            </p>
+            <div class="highlight-metrics">
+              <span class="highlight-chip">Marca: <strong data-tenant-brand>LoopinPet</strong></span>
+              <span class="highlight-chip">Slug: <strong data-tenant-slug>—</strong></span>
+              <span class="highlight-chip">Admin: <strong data-user-name>Leonidas</strong></span>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <a class="btn-primary" href="/tenant/configuracoes-gerais">Customizar sistema</a>
+            <a class="btn-secondary" href="/tenant/agenda">Ver agenda</a>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="card kpi-card">
+            <div class="kpi-label">Agendamentos Hoje</div>
+            <div class="kpi">34</div>
+            <div class="kpi-foot">+8% vs ontem</div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-label">Receita Hoje</div>
+            <div class="kpi">R$ 2.800</div>
+            <div class="kpi-foot">Meta diária: R$ 3.500</div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-label">Check-ins Ativos</div>
+            <div class="kpi">9</div>
+            <div class="kpi-foot">4 aguardando checkout</div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-label">Pets no Day Care</div>
+            <div class="kpi">5</div>
+            <div class="kpi-foot">2 com saída até 18h</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="section-title">Agenda do Dia</div>
+            <table class="table">
+              <thead>
+                <tr><th>Hora</th><th>Pet</th><th>Serviço</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>09:00</td><td>Thor</td><td>Banho e Tosa</td><td><span class="status confirmado">Confirmado</span></td></tr>
+                <tr><td>10:30</td><td>Luna</td><td>Banho</td><td><span class="status pendente">Pendente</span></td></tr>
+                <tr><td>11:00</td><td>Meg</td><td>Hidratação</td><td><span class="status confirmado">Confirmado</span></td></tr>
+                <tr><td>14:00</td><td>Fred</td><td>Day Care</td><td><span class="status confirmado">Confirmado</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="section-title">Alertas e Ações</div>
+            <div class="list">
+              <div class="list-item"><div><strong>3 clientes sem retorno há 45 dias</strong><span>Campanha de reativação recomendada</span></div><button class="cta">Ver</button></div>
+              <div class="list-item"><div><strong>2 invoices vencem hoje</strong><span>Cobrança amigável pendente</span></div><button class="cta">Cobrar</button></div>
+              <div class="list-item"><div><strong>Agenda ociosa amanhã às 15h</strong><span>Sugerir ação promocional</span></div><button class="cta">Ativar</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="section-title">Resumo Financeiro</div>
+            <table class="table"><tbody>
+              <tr><td>Caixa Aberto</td><td>Sim</td></tr>
+              <tr><td>Recebimentos da Semana</td><td>R$ 12.450</td></tr>
+              <tr><td>Inadimplência</td><td>R$ 1.120</td></tr>
+              <tr><td>Pacotes Ativos</td><td>47</td></tr>
+            </tbody></table>
+          </div>
+
+          <div class="card">
+            <div class="section-title">White-label do assinante</div>
+            <div class="settings-grid">
+              <div class="setting-item"><strong>Marca</strong><span data-tenant-brand>LoopinPet</span></div>
+              <div class="setting-item"><strong>Tenant ID</strong><span data-tenant-id>—</span></div>
+              <div class="setting-item"><strong>Slug</strong><span data-tenant-slug>—</span></div>
+              <div class="setting-item"><strong>Admin</strong><span data-user-name>Leonidas</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-title">Gerente Virtual IA</div>
+            <div class="list">
+              <div class="list-item"><div><strong>Upsell recomendado</strong><span>Oferecer pacote mensal para 8 tutores recorrentes</span></div></div>
+              <div class="list-item"><div><strong>Risco de churn</strong><span>4 clientes reduziram frequência nas últimas semanas</span></div></div>
+              <div class="list-item"><div><strong>Sugestão operacional</strong><span>Antecipar encaixes de pequeno porte no período da manhã</span></div></div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+</body>
+</html>

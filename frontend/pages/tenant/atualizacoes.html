@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Atualizações</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+  <div class="sidebar-logo-header">
+    <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+      <div class="sidebar-brand-badge">
+        <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+        <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+      </div>
+    </button>
+  </div>
+</div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading"><div class="page-title">Atualizações</div>
+          <div class="page-subtitle">Visão de releases e melhorias do produto</div></div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
+                  <small>Há 5 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🔔</span>
+                <div>
+                  <strong>Lembrete operacional</strong>
+                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
+                  <small>Há 18 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Oportunidade de receita</strong>
+                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LE</span>
+              <span data-user-name>Leonidas</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Leonidas</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        
+        <div class="card"><div class="section-title">Versão atual do ambiente</div><ul class="simple-list"><li><strong>v2.1+</strong> — refinamento do menu lateral, colapso com ícones e dropdown do usuário.</li><li><strong>White-label</strong> — persistência de branding por tenant.</li><li><strong>Base SaaS</strong> — login do assinante e estrutura multi-tenant.</li></ul></div>
+ 
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Configurações gerais</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+  <div class="sidebar-logo-header">
+    <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+      <div class="sidebar-brand-badge">
+        <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+        <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+      </div>
+    </button>
+  </div>
+</div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading"><div class="page-title">Configurações gerais</div>
+          <div class="page-subtitle">White-label, textos, domínio e identidade visual do sistema</div></div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
+                  <small>Há 5 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🔔</span>
+                <div>
+                  <strong>Lembrete operacional</strong>
+                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
+                  <small>Há 18 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Oportunidade de receita</strong>
+                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LE</span>
+              <span data-user-name>Leonidas</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Leonidas</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        
+        <div class="page-hero-card card">
+          <div>
+            <div class="hero-eyebrow">White-label completo</div>
+            <h2 class="hero-title">Configurações gerais e identidade da marca</h2>
+            <p class="hero-copy">Defina nome da marca, logo, favicon, paleta de cores, domínio, contato e textos estratégicos para login e navegação. O fundo do sidebar acompanha a cor de destaque configurada. Tudo salvo por tenant. Você pode fazer upload direto dos arquivos da marca, sem precisar informar links.</p>
+          </div>
+          <div class="panel-actions">
+            <a class="btn-secondary" href="/tenant/configuracoes">Voltar para central</a>
+          </div>
+        </div>
+
+        <div class="grid-2 align-start">
+          <form id="branding-form" class="card stacked-form">
+            <div class="section-title">Dados da marca</div>
+            <div id="branding-feedback" class="auth-feedback info">Preencha os campos e veja o preview em tempo real.</div>
+
+            <div class="form-grid-2">
+              <label class="field"><span>Nome interno do tenant</span><input type="text" name="tenantName" placeholder="Pet Funny Unidade Ribeirão" /></label>
+              <label class="field"><span>Nome da marca</span><input type="text" name="brandName" placeholder="Pet Funny" /></label>
+              <label class="field field-full"><span>Logo da marca</span><input type="file" name="logoFile" accept="image/*" /><input type="hidden" name="logoUrl" /></label>
+              <label class="field field-full"><span>Ícone/Favicon da marca</span><input type="file" name="faviconFile" accept="image/*" /><input type="hidden" name="faviconUrl" /></label>
+              <label class="field"><span>Cor primária</span><input type="color" name="primaryColor" /></label>
+              <label class="field"><span>Cor secundária</span><input type="color" name="secondaryColor" /></label>
+              <label class="field"><span>Cor de destaque</span><input type="color" name="accentColor" /></label>
+              <label class="field"><span>Modo visual</span><select name="surfaceMode"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+              <label class="field"><span>Domínio customizado</span><input type="text" name="customDomain" placeholder="app.petfunny.com.br" /></label>
+              <label class="field"><span>URL de agendamento</span><input type="url" name="bookingUrl" placeholder="https://agendapetfunny.com.br" /></label>
+              <label class="field"><span>E-mail de suporte</span><input type="email" name="supportEmail" placeholder="contato@marca.com.br" /></label>
+              <label class="field"><span>WhatsApp comercial</span><input type="text" name="whatsappNumber" placeholder="5516999999999" /></label>
+            </div>
+
+            <div class="section-title compact">Textos da experiência</div>
+            <div class="form-grid-2">
+              <label class="field field-full"><span>Título do login</span><input type="text" name="loginTitle" placeholder="Bem-vindo ao seu painel" /></label>
+              <label class="field field-full"><span>Subtítulo do login</span><textarea name="loginSubtitle" rows="3" placeholder="Controle agenda, operação, CRM e financeiro em um só lugar."></textarea></label>
+              <label class="field field-full"><span>Título de SEO</span><input type="text" name="metaTitle" placeholder="Pet Funny • Painel Administrativo" /></label>
+              <label class="field field-full"><span>Descrição de SEO</span><textarea name="metaDescription" rows="3" placeholder="Sistema operacional do pet shop com agenda, CRM, automação e financeiro."></textarea></label>
+              <label class="field"><span>Título lateral</span><input type="text" name="sidebarTitle" placeholder="Operação central" /></label>
+              <label class="field"><span>Subtítulo lateral</span><input type="text" name="sidebarSubtitle" placeholder="Agenda, CRM e financeiro" /></label>
+            </div>
+
+            <div class="form-actions"><button type="submit" class="btn-primary">Salvar white-label</button></div>
+          </form>
+
+          <div class="stack-gap">
+            <div class="card preview-card">
+              <div class="section-title">Preview do ambiente</div>
+              <div class="preview-shell">
+                <div class="preview-topbar">
+                  <img data-preview-logo class="preview-logo" src="../../assets/logo-loopinpet.png" alt="Logo" />
+                  <div><strong data-preview-brand>LoopinPet</strong><p data-preview-domain>seudominio.com.br</p></div>
+                  <span class="pill neutral" data-preview-surface>Light Mode</span>
+                </div>
+                <div class="preview-login-card">
+                  <span class="hero-eyebrow">Login white-label</span>
+                  <h3 data-preview-login-title>Bem-vindo ao LoopinPet</h3>
+                  <p data-preview-login-subtitle>Seu painel white-label está pronto para receber agenda, CRM e financeiro.</p>
+                </div>
+                <div class="preview-meta"><div><strong>SEO</strong><span data-preview-meta-title>LoopinPet • LoopinPet</span></div><div><strong>Descrição</strong><span data-preview-meta-description>Experiência white-label para o assinante LoopinPet.</span></div></div>
+                <div class="preview-meta two-cols"><div><strong>WhatsApp</strong><span data-preview-whatsapp>Não configurado</span></div><div><strong>Suporte</strong><span data-preview-support-email>Não configurado</span></div></div>
+                <div data-summary-pills class="pill-row"></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="section-title">Resumo da conta</div>
+              <div class="settings-grid">
+                <div class="setting-item"><strong>Marca</strong><span data-tenant-brand>LoopinPet</span></div>
+                <div class="setting-item"><strong>ID do assinante</strong><span data-tenant-id>—</span></div>
+                <div class="setting-item"><strong>Slug</strong><span data-tenant-slug>—</span></div>
+                <div class="setting-item"><strong>Domínio</strong><span data-tenant-domain>—</span></div>
+                <div class="setting-item"><strong>Suporte</strong><span data-tenant-support-email>—</span></div>
+                <div class="setting-item"><strong>WhatsApp</strong><span data-tenant-whatsapp>—</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+  <script type="module">
+    await import('../../assets/js/configuracoes.js');
+  </script>
+</body>
+</html>

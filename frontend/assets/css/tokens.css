@@ -1,0 +1,18 @@
+:root{
+  --color-primary:#01ADB7;
+  --color-primary-dark:#0F8C94;
+  --color-primary-soft:rgba(1,173,183,.12);
+  --color-secondary:#F97316;
+  --color-accent:#F9A197;
+  --color-bg:#F5F7FA;
+  --color-surface:#FFFFFF;
+  --color-text:#0F172A;
+  --color-text-soft:#64748B;
+  --color-border:#E2E8F0;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow-soft:0 8px 20px rgba(0,0,0,.05);
+  --shadow-card:0 12px 30px rgba(0,0,0,.08);
+  --sidebar-width:270px;
+  --topbar-height:70px;
+}

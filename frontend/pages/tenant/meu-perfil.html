@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Meu Perfil</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <style>
+    .profile-page {
+      display: grid;
+      gap: 18px;
+    }
+
+    .profile-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(320px, .9fr);
+      gap: 18px;
+    }
+
+    .profile-card-muted {
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .profile-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field span,
+    .switch-row strong,
+    .password-checks li {
+      font-size: 14px;
+    }
+
+    .field small {
+      color: var(--color-text-soft);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: #fff;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .field textarea {
+      min-height: 120px;
+      padding: 14px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(1,173,183,.55);
+      box-shadow: 0 0 0 4px rgba(1,173,183,.12);
+    }
+
+    .profile-inline-actions,
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .switch-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .switch-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .switch-copy {
+      min-width: 0;
+    }
+
+    .switch-row span {
+      display: block;
+      margin-top: 4px;
+      color: var(--color-text-soft);
+      font-size: 13px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .switch-control {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      display: block !important;
+      width: 52px !important;
+      inline-size: 52px !important;
+      min-width: 52px !important;
+      max-width: 52px !important;
+      height: 30px !important;
+      block-size: 30px !important;
+      min-height: 30px !important;
+      max-height: 30px !important;
+      padding: 0 !important;
+      border-radius: 999px !important;
+      background: #cbd5e1;
+      position: relative;
+      cursor: pointer;
+      transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+      flex-shrink: 0;
+      align-self: center;
+      justify-self: end;
+      border: none !important;
+      outline: none;
+      margin: 0 !important;
+      box-sizing: border-box;
+      overflow: hidden;
+      line-height: 1;
+      vertical-align: middle;
+    }
+
+    .switch-control::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(15,23,42,.18);
+      transition: transform .2s ease;
+      pointer-events: none;
+    }
+
+    .switch-control:checked {
+      background: var(--accent);
+    }
+
+    .switch-control:checked::after {
+      transform: translateX(22px);
+    }
+
+    .switch-control:hover {
+      transform: translateY(-1px);
+    }
+
+    .switch-control:focus-visible {
+      box-shadow: 0 0 0 4px rgba(1,173,183,.14);
+    }
+
+    .status-message {
+      min-height: 48px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px dashed rgba(15,23,42,.12);
+      color: #334155;
+      background: #fff;
+    }
+
+    .status-message.success {
+      border-style: solid;
+      border-color: rgba(22,163,74,.18);
+      background: rgba(22,163,74,.08);
+      color: #166534;
+    }
+
+    .status-message.error {
+      border-style: solid;
+      border-color: rgba(220,38,38,.18);
+      background: rgba(220,38,38,.08);
+      color: #991b1b;
+    }
+
+    .mini-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(1,173,183,.08);
+      border: 1px solid rgba(1,173,183,.16);
+      margin-bottom: 14px;
+    }
+
+    .mini-profile-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      background: #fff;
+      box-shadow: 0 10px 25px rgba(15,23,42,.08);
+    }
+
+    .mini-profile-copy strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .mini-profile-copy span {
+      color: var(--color-text-soft);
+      font-size: 13px;
+    }
+
+    .action-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .action-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--color-border);
+      background: #fff;
+    }
+
+    .action-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .action-item span {
+      color: var(--color-text-soft);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .text-button {
+      border: none;
+      background: transparent;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.42);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .password-modal {
+      width: min(760px, 100%);
+      max-height: calc(100vh - 48px);
+      overflow: hidden;
+      border-radius: 18px;
+      background: #f3f4f6;
+      box-shadow: 0 28px 80px rgba(15,23,42,.36);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .password-modal-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .password-modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .password-modal-title-chip {
+      background: rgba(255,255,255,.18);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .password-icon-button {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: none;
+      background: rgba(15,185,177,.22);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .password-icon-button svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .password-modal-body {
+      padding: 22px 22px 18px;
+      overflow: auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .password-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .password-field label {
+      font-size: 16px;
+      color: #3f3f46;
+    }
+
+    .password-input-wrap {
+      position: relative;
+    }
+
+    .password-input-wrap input {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 58px 0 18px;
+      border: 1px solid #d4d4d8;
+      border-radius: 16px;
+      background: #fff;
+      outline: none;
+      color: #111827;
+      font-size: 16px;
+    }
+
+    .password-input-wrap input::placeholder {
+      color: #bfbfbf;
+    }
+
+    .password-input-wrap input:focus {
+      border-color: rgba(1,173,183,.68);
+      box-shadow: 0 0 0 4px rgba(1,173,183,.12);
+    }
+
+    .password-visibility {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .password-visibility svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .password-checks {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      padding-top: 6px;
+    }
+
+    .password-checks li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #18181b;
+    }
+
+    .password-check {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 2px solid #a1a1aa;
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: .2s ease;
+    }
+
+    .password-check::after {
+      content: '';
+      width: 12px;
+      height: 7px;
+      border-left: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      transform: rotate(-45deg) translateY(-1px);
+    }
+
+    .password-check.is-valid {
+      border-color: var(--accent);
+      background: rgba(1,173,183,.12);
+    }
+
+    .password-check.is-valid::after {
+      border-left-color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .password-modal-footer {
+      margin-top: auto;
+      padding: 18px 22px 20px;
+      border-top: 1px solid rgba(15,23,42,.06);
+      display: flex;
+      justify-content: flex-end;
+      background: rgba(255,255,255,.35);
+    }
+
+    .password-submit {
+      min-width: 206px;
+      min-height: 46px;
+      border-radius: 14px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1100px) {
+      .profile-hero,
+      .profile-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .password-modal-header,
+      .password-modal-header-left,
+      .action-item,
+      .mini-profile {
+        align-items: flex-start;
+      }
+
+      .switch-row {
+        grid-template-columns: 1fr;
+      }
+
+      .switch-control {
+        justify-self: start;
+      }
+
+      .password-modal-header {
+        padding: 12px;
+      }
+
+      .password-modal-body,
+      .password-modal-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .password-submit {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+        <div class="sidebar-logo-header">
+          <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+            <div class="sidebar-brand-badge">
+              <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+              <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading"><div class="page-title">Meu Perfil</div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
+                  <small>Há 5 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🔔</span>
+                <div>
+                  <strong>Lembrete operacional</strong>
+                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
+                  <small>Há 18 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Oportunidade de receita</strong>
+                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LE</span>
+              <span data-user-name>Leonidas</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Leonidas</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content profile-page">
+        <div class="profile-hero">
+          <div class="card profile-card-muted">
+            <div class="section-title">Dados do Meu Perfil</div>
+            <form id="profileForm" class="profile-form-grid" novalidate>
+              <label class="field">
+                <span>Nome completo</span>
+                <input type="text" id="profileFullName" name="full_name" placeholder="Digite o nome do responsável" autocomplete="name" />
+              </label>
+
+              <label class="field">
+                <span>E-mail</span>
+                <input type="email" id="profileEmail" name="email" placeholder="Digite o e-mail de acesso" autocomplete="email" />
+              </label>
+
+              <label class="field">
+                <span>Cargo / perfil</span>
+                <input type="text" id="profileRole" name="role_label" placeholder="Ex.: Administrador principal" />
+              </label>
+
+              <label class="field">
+                <span>Telefone / WhatsApp</span>
+                <input type="text" id="profilePhone" name="phone" placeholder="(00) 00000-0000" autocomplete="tel" />
+              </label>
+
+              <label class="field field-full">
+                <span>Assinatura visual do responsável</span>
+                <textarea id="profileSignature" name="signature" placeholder="Ex.: Leonidas • Administração • LoopinPet"></textarea>
+                <small>Esse texto pode ser usado em comunicações, mensagens internas e assinatura do responsável.</small>
+              </label>
+
+              <div class="field field-full">
+                <span>Preferências de notificação</span>
+                <div class="switch-grid">
+                  <label class="switch-row">
+                    <div class="switch-copy">
+                      <strong>Notificação por e-mail</strong>
+                      <span>Receber avisos de agenda, pagamentos e alertas operacionais por e-mail.</span>
+                    </div>
+                    <input class="switch-control" type="checkbox" id="notifEmail" name="notification_email" />
+                  </label>
+
+                  <label class="switch-row">
+                    <div class="switch-copy">
+                      <strong>Notificação por WhatsApp</strong>
+                      <span>Receber lembretes prioritários e alertas rápidos direto no WhatsApp.</span>
+                    </div>
+                    <input class="switch-control" type="checkbox" id="notifWhatsapp" name="notification_whatsapp" />
+                  </label>
+
+                  <label class="switch-row">
+                    <div class="switch-copy">
+                      <strong>Autenticação em duas etapas</strong>
+                      <span>Ativa a proteção adicional da conta para próximos acessos do administrador.</span>
+                    </div>
+                    <input class="switch-control" type="checkbox" id="profileMfa" name="mfa_enabled" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="field field-full">
+                <div class="form-actions">
+                  <button class="btn-primary" type="submit" id="saveProfile">Salvar alterações</button>
+                  <button class="btn-secondary" type="button" id="resetProfile">Restaurar dados</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="section-title">Conta do responsável</div>
+            <div class="mini-profile">
+              <span class="mini-profile-avatar" data-profile-initials>AD</span>
+              <div class="mini-profile-copy">
+                <strong data-profile-name>Administrador</strong>
+                <span data-profile-email>admin@loopinpet.com</span>
+              </div>
+            </div>
+
+            
+            <div class="action-list">
+              <div class="action-item">
+                <div>
+                  <strong>Alterar senha</strong>
+                  <span>Abra o fluxo de atualização no mesmo padrão visual solicitado para o sistema.</span>
+                </div>
+                <button type="button" class="text-button" id="openPasswordModal">Alterar</button>
+              </div>
+
+              <div class="action-item">
+                <div>
+                  <strong>Dados sincronizados do login</strong>
+                  <span>O e-mail e o nome exibidos no topo também são atualizados após salvar o Meu Perfil.</span>
+                </div>
+                <span class="pill success">Ativo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="profileFeedback" class="status-message">Carregando dados do perfil...</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="passwordModal" aria-hidden="true">
+    <div class="password-modal" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+      <div class="password-modal-header">
+        <div class="password-modal-header-left">
+          <button type="button" class="password-icon-button" id="passwordModalBack" aria-label="Voltar">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path><path d="M9 12h10"></path></svg>
+          </button>
+          <div class="password-modal-title-chip" id="passwordModalTitle">Minha conta → Alterar senha</div>
+        </div>
+        <button type="button" class="password-icon-button" id="passwordModalClose" aria-label="Fechar">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+      </div>
+
+      <form id="passwordForm" novalidate>
+        <div class="password-modal-body">
+          <div class="password-field">
+            <label for="currentPassword">Senha atual</label>
+            <div class="password-input-wrap">
+              <input type="password" id="currentPassword" name="currentPassword" placeholder="Digite sua senha atual" autocomplete="current-password" />
+              <button type="button" class="password-visibility" data-toggle-password="currentPassword" aria-label="Mostrar ou ocultar senha atual">
+                <svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="password-field">
+            <label for="newPassword">Nova senha</label>
+            <div class="password-input-wrap">
+              <input type="password" id="newPassword" name="newPassword" placeholder="Digite sua nova senha" autocomplete="new-password" />
+              <button type="button" class="password-visibility" data-toggle-password="newPassword" aria-label="Mostrar ou ocultar nova senha">
+                <svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="password-field">
+            <label for="confirmPassword">Confirmação da senha</label>
+            <div class="password-input-wrap">
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua senha" autocomplete="new-password" />
+              <button type="button" class="password-visibility" data-toggle-password="confirmPassword" aria-label="Mostrar ou ocultar confirmação da senha">
+                <svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+
+          <ul class="password-checks">
+            <li>
+              <span class="password-check" data-check="length"></span>
+              <span>A senha precisa ter pelo menos 6 caracteres</span>
+            </li>
+            <li>
+              <span class="password-check" data-check="alphanumeric"></span>
+              <span>A senha precisa ter letras e números</span>
+            </li>
+            <li>
+              <span class="password-check" data-check="match"></span>
+              <span>As senhas precisam ser iguais</span>
+            </li>
+          </ul>
+          <p id="passwordFeedback" class="visually-hidden" aria-live="polite"></p>
+        </div>
+
+        <div class="password-modal-footer">
+          <button class="btn-primary password-submit" type="submit" id="submitPassword">ALTERAR SENHA</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi, getAuth, getToken, saveAuth } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+
+    const auth = getAuth() || {};
+    const profileForm = document.getElementById('profileForm');
+    const resetProfileButton = document.getElementById('resetProfile');
+    const feedbackEl = document.getElementById('profileFeedback');
+    const passwordModal = document.getElementById('passwordModal');
+    const passwordForm = document.getElementById('passwordForm');
+    const openPasswordModalButton = document.getElementById('openPasswordModal');
+    const closePasswordModalButton = document.getElementById('passwordModalClose');
+    const backPasswordModalButton = document.getElementById('passwordModalBack');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+    const currentPasswordInput = document.getElementById('currentPassword');
+    const newPasswordInput = document.getElementById('newPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    let initialProfileState = null;
+
+    function getInitials(name = '') {
+      return String(name)
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0] ? part[0].toUpperCase() : '')
+        .join('') || 'AD';
+    }
+
+    function setFeedback(message, type = '') {
+      feedbackEl.textContent = message;
+      feedbackEl.className = 'status-message';
+      if (type) feedbackEl.classList.add(type);
+    }
+
+    function normalizeRoleLabel(value) {
+      if (!value) return 'Administrador principal';
+      const map = {
+        owner: 'Administrador principal',
+        admin: 'Administrador',
+        manager: 'Gestor',
+        attendant: 'Atendente'
+      };
+      return map[String(value).toLowerCase()] || value;
+    }
+
+    function fillProfileForm(data) {
+      document.getElementById('profileFullName').value = data.full_name || '';
+      document.getElementById('profileEmail').value = data.email || '';
+      document.getElementById('profileRole').value = data.role_label || normalizeRoleLabel(data.role || 'owner');
+      document.getElementById('profilePhone').value = data.phone || '';
+      document.getElementById('profileSignature').value = data.signature || '';
+      document.getElementById('notifEmail').checked = Boolean(data.notification_email);
+      document.getElementById('notifWhatsapp').checked = Boolean(data.notification_whatsapp);
+      document.getElementById('profileMfa').checked = Boolean(data.mfa_enabled);
+      syncProfileSummary();
+    }
+
+    function profilePayloadFromForm() {
+      return {
+        full_name: document.getElementById('profileFullName').value.trim(),
+        email: document.getElementById('profileEmail').value.trim(),
+        role_label: document.getElementById('profileRole').value.trim(),
+        phone: document.getElementById('profilePhone').value.trim(),
+        signature: document.getElementById('profileSignature').value.trim(),
+        notification_email: document.getElementById('notifEmail').checked,
+        notification_whatsapp: document.getElementById('notifWhatsapp').checked,
+        mfa_enabled: document.getElementById('profileMfa').checked
+      };
+    }
+
+    function syncProfileSummary() {
+      const data = profilePayloadFromForm();
+      document.querySelectorAll('[data-profile-name]').forEach((node) => {
+        node.textContent = data.full_name || 'Administrador';
+      });
+      document.querySelectorAll('[data-profile-email]').forEach((node) => {
+        node.textContent = data.email || '—';
+      });
+      document.querySelectorAll('[data-profile-initials]').forEach((node) => {
+        node.textContent = getInitials(data.full_name || 'Administrador');
+      });
+    }
+
+    function updateStoredAuth(profile) {
+      const current = getAuth() || {};
+      const merged = {
+        ...current,
+        user: {
+          ...(current.user || {}),
+          full_name: profile.full_name,
+          email: profile.email,
+          role: profile.role || current.user?.role || 'owner'
+        },
+        profile: {
+          ...(current.profile || {}),
+          ...profile
+        },
+        token: current.token
+      };
+      saveAuth(merged);
+      hydrateTenantUi();
+    }
+
+    async function loadProfile() {
+      setFeedback('Carregando dados do perfil...');
+      try {
+        const response = await fetch('/api/me-profile', {
+          headers: { Authorization: `Bearer ${getToken()}` }
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || 'Não foi possível carregar o Meu Perfil.');
+        }
+        initialProfileState = data;
+        fillProfileForm(data);
+        updateStoredAuth(data);
+        setFeedback('Perfil carregado com sucesso.', 'success');
+      } catch (error) {
+        setFeedback(error.message || 'Falha ao carregar o Meu Perfil.', 'error');
+      }
+    }
+
+    function openPasswordModal() {
+      passwordModal.classList.add('is-open');
+      passwordModal.setAttribute('aria-hidden', 'false');
+      passwordForm.reset();
+      updatePasswordChecks();
+      window.requestAnimationFrame(() => currentPasswordInput.focus());
+    }
+
+    function closePasswordModal() {
+      passwordModal.classList.remove('is-open');
+      passwordModal.setAttribute('aria-hidden', 'true');
+      passwordForm.reset();
+      updatePasswordChecks();
+      passwordFeedback.textContent = '';
+    }
+
+    function updatePasswordChecks() {
+      const password = newPasswordInput.value;
+      const confirm = confirmPasswordInput.value;
+      const checks = {
+        length: password.length >= 6,
+        alphanumeric: /[A-Za-zÀ-ÿ]/.test(password) && /\d/.test(password),
+        match: Boolean(password) && password === confirm
+      };
+
+      Object.entries(checks).forEach(([key, valid]) => {
+        const node = document.querySelector(`[data-check="${key}"]`);
+        if (!node) return;
+        node.classList.toggle('is-valid', valid);
+      });
+
+      return checks;
+    }
+
+    function togglePasswordVisibility(button) {
+      const inputId = button.getAttribute('data-toggle-password');
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    profileForm.addEventListener('input', syncProfileSummary);
+
+    profileForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const payload = profilePayloadFromForm();
+
+      if (!payload.full_name || !payload.email) {
+        setFeedback('Preencha pelo menos nome completo e e-mail para salvar o Meu Perfil.', 'error');
+        return;
+      }
+
+      setFeedback('Salvando alterações do perfil...');
+      const submitButton = document.getElementById('saveProfile');
+      submitButton.disabled = true;
+
+      try {
+        const response = await fetch('/api/me-profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || 'Não foi possível salvar o Meu Perfil.');
+        }
+
+        initialProfileState = data.profile || payload;
+        fillProfileForm(initialProfileState);
+        updateStoredAuth(initialProfileState);
+        setFeedback(data.message || 'Meu Perfil atualizado com sucesso.', 'success');
+      } catch (error) {
+        setFeedback(error.message || 'Falha ao salvar o Meu Perfil.', 'error');
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    resetProfileButton.addEventListener('click', () => {
+      if (initialProfileState) {
+        fillProfileForm(initialProfileState);
+        setFeedback('Dados restaurados para a última versão salva.', 'success');
+      }
+    });
+
+    openPasswordModalButton.addEventListener('click', openPasswordModal);
+    closePasswordModalButton.addEventListener('click', closePasswordModal);
+    backPasswordModalButton.addEventListener('click', closePasswordModal);
+
+    passwordModal.addEventListener('click', (event) => {
+      if (event.target === passwordModal) closePasswordModal();
+    });
+
+    document.querySelectorAll('[data-toggle-password]').forEach((button) => {
+      button.addEventListener('click', () => togglePasswordVisibility(button));
+    });
+
+    [newPasswordInput, confirmPasswordInput].forEach((input) => {
+      input.addEventListener('input', updatePasswordChecks);
+    });
+
+    passwordForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const checks = updatePasswordChecks();
+      if (!currentPasswordInput.value.trim()) {
+        setFeedback('Informe a senha atual antes de confirmar a alteração.', 'error');
+        currentPasswordInput.focus();
+        return;
+      }
+      if (!checks.length || !checks.alphanumeric || !checks.match) {
+        setFeedback('Revise os critérios da nova senha antes de continuar.', 'error');
+        return;
+      }
+
+      const submitButton = document.getElementById('submitPassword');
+      submitButton.disabled = true;
+      passwordFeedback.textContent = 'Alterando senha...';
+
+      try {
+        const response = await fetch('/api/me-profile/password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`
+          },
+          body: JSON.stringify({
+            currentPassword: currentPasswordInput.value,
+            newPassword: newPasswordInput.value,
+            confirmPassword: confirmPasswordInput.value
+          })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || 'Não foi possível alterar a senha.');
+        }
+
+        closePasswordModal();
+        setFeedback(data.message || 'Senha alterada com sucesso.', 'success');
+      } catch (error) {
+        passwordFeedback.textContent = error.message || 'Falha ao alterar a senha.';
+        setFeedback(error.message || 'Falha ao alterar a senha.', 'error');
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && passwordModal.classList.contains('is-open')) {
+        closePasswordModal();
+      }
+    });
+
+    syncProfileSummary();
+    updatePasswordChecks();
+    if (auth.user) {
+      document.getElementById('profileFullName').value = auth.user.full_name || '';
+      document.getElementById('profileEmail').value = auth.user.email || '';
+      document.getElementById('profileRole').value = normalizeRoleLabel(auth.user.role || 'owner');
+      syncProfileSummary();
+    }
+    loadProfile();
+  </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Suporte</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/suporte.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+        <div class="sidebar-logo-header">
+          <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+            <div class="sidebar-brand-badge">
+              <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+              <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading">
+            <div class="page-title">Suporte e Sugestões</div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
+                  <small>Há 5 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🔔</span>
+                <div>
+                  <strong>Lembrete operacional</strong>
+                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
+                  <small>Há 18 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Oportunidade de receita</strong>
+                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LE</span>
+              <span data-user-name>Leonidas</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Leonidas</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="support-shell">
+          <div class="card support-card">
+            <h2 class="support-callout-title">Precisa de ajuda? Fale com nossos especialistas:</h2>
+            <div class="support-links">
+              <a class="support-link support-link--email" data-support-email-link href="#" target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6.75A2.75 2.75 0 0 1 5.75 4h12.5A2.75 2.75 0 0 1 21 6.75v10.5A2.75 2.75 0 0 1 18.25 20H5.75A2.75 2.75 0 0 1 3 17.25V6.75Zm2.2-.25 6.48 5.4a.5.5 0 0 0 .64 0l6.48-5.4H5.2Zm13.3 2.1-5.22 4.35a2.5 2.5 0 0 1-3.2 0L5 8.6v8.65c0 .41.34.75.75.75h12.5c.41 0 .75-.34.75-.75V8.6Z"/></svg>
+                <span>E-mail</span>
+              </a>
+              <a class="support-link support-link--whatsapp" data-support-whatsapp-link href="#" target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.28 2 11.56c0 1.86.56 3.6 1.52 5.08L2 22l5.56-1.44A10.2 10.2 0 0 0 12 21.12c5.52 0 10-4.28 10-9.56C22 6.28 17.52 2 12 2Zm0 17.31c-1.38 0-2.73-.35-3.92-1.02l-.28-.16-3.3.86.89-3.13-.19-.31A7.44 7.44 0 0 1 4.02 11.56c0-4.2 3.58-7.61 7.98-7.61s7.98 3.41 7.98 7.61-3.58 7.75-7.98 7.75Zm4.38-5.84c-.24-.12-1.42-.68-1.64-.76-.22-.08-.38-.12-.54.12-.16.24-.62.76-.76.91-.14.16-.28.18-.52.06-.24-.12-1.03-.37-1.95-1.17-.72-.62-1.2-1.39-1.34-1.62-.14-.24-.01-.36.11-.47.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.28-.74-1.75-.2-.47-.41-.4-.56-.41l-.48-.01c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.68 2.62 4.07 3.67.57.24 1.01.38 1.36.49.57.18 1.09.15 1.5.09.46-.07 1.42-.58 1.62-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+              <a class="support-link support-link--youtube" data-support-youtube-link href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.14-.4-4.65a2.97 2.97 0 0 0-2.1-2.1C18.98 4.86 12 4.86 12 4.86s-6.98 0-8.5.39a2.97 2.97 0 0 0-2.1 2.1C1 8.86 1 12 1 12s0 3.14.4 4.65a2.97 2.97 0 0 0 2.1 2.1c1.52.39 8.5.39 8.5.39s6.98 0 8.5-.39a2.97 2.97 0 0 0 2.1-2.1C23 15.14 23 12 23 12ZM9.75 15.98V8.02L16.5 12l-6.75 3.98Z"/></svg>
+                <span>Youtube</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="card support-card support-form-card">
+            <h2>Sua opinião é muito importante! Ajude-nos a melhorar o Appet.tosa</h2>
+            <form class="support-form" data-support-form>
+              <div class="support-field">
+                <label for="favoritePart">O que você mais gosta no Appet.tosa?</label>
+                <textarea id="favoritePart" name="favoritePart" placeholder="Conte-nos qual sua parte favorita do Appet.tosa!" required></textarea>
+              </div>
+
+              <div class="support-field">
+                <label for="improvementSuggestions">Quais suas sugestões para melhorar o Appet.tosa?</label>
+                <textarea id="improvementSuggestions" name="improvementSuggestions" placeholder="Descreva as funcionalidades que você gostaria de ver no Appet.tosa." required></textarea>
+              </div>
+
+              <div class="support-form-footer">
+                <div class="support-feedback-message" data-support-feedback-message hidden></div>
+                <button class="btn-primary" type="submit">ENVIAR</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="support-version" data-support-version>Versão 1.51.3251</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+  <script type="module" src="../../assets/js/suporte.js"></script>
+</body>
+</html>

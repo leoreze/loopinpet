@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Configurações</title>
+
+  <script>
+    (function () {
+      try {
+        var auth = JSON.parse(localStorage.getItem('loopinpet.auth') || 'null');
+        var tenant = auth && auth.tenant ? auth.tenant : {};
+        var settings = auth && auth.settings ? auth.settings : {};
+        var primary = tenant.primary_color || '#1F8560';
+        var secondary = tenant.secondary_color || '#E67315';
+        var accent = tenant.accent_color || '#8F8866';
+        document.documentElement.style.setProperty('--accent', primary);
+        document.documentElement.style.setProperty('--accent-dark', secondary);
+        document.documentElement.style.setProperty('--accent-soft', primary + '1A');
+        document.documentElement.style.setProperty('--brand-highlight', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-start', accent);
+        document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+        if (settings.surface_mode === 'dark') {
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('theme-dark');
+          }, { once: true });
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed">
+  <div class="sidebar-logo-header">
+    <button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true">
+      <div class="sidebar-brand-badge">
+        <img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+        <img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+      </div>
+    </button>
+  </div>
+</div>
+
+      <div class="sidebar-menu"></div>
+
+      <div class="sidebar-footer sidebar-footer-branding">
+        <div class="sidebar-footer-line"></div>
+        <div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo">
+          <div class="sidebar-footer-brand-badge">
+            <img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+            <img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" />
+          </div>
+          <div class="sidebar-footer-brand-copy">
+            <strong>LoopinPet</strong>
+            <span>MVP 1.0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading"><div class="page-title">Configurações</div>
+          <div class="page-subtitle">Conta, agendamento on-line e parâmetros do sistema</div></div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                <path d="M9 17a3 3 0 0 0 6 0"></path>
+              </svg>
+              <span class="notification-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notification-dropdown" data-notification-dropdown>
+              <div class="notification-header">
+                <strong>Notificações</strong>
+                <span class="notification-chip">IA + Sistema</span>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🤖</span>
+                <div>
+                  <strong>Insight da IA</strong>
+                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
+                  <small>Há 5 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">🔔</span>
+                <div>
+                  <strong>Lembrete operacional</strong>
+                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
+                  <small>Há 18 min</small>
+                </div>
+              </div>
+
+              <div class="notification-item">
+                <span class="notification-icon">📈</span>
+                <div>
+                  <strong>Oportunidade de receita</strong>
+                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
+                  <small>Hoje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false">
+              <span class="user-avatar" data-user-initials>LE</span>
+              <span data-user-name>Leonidas</span>
+              <span class="user-chip-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="user-dropdown" data-user-dropdown>
+              <div class="user-dropdown-header">
+                <strong data-user-name>Leonidas</strong>
+                <span data-tenant-brand>LoopinPet</span>
+              </div>
+              <a href="/tenant/meu-perfil">👤 Meu Perfil</a>
+              <a href="/tenant/suporte">💬 Suporte</a>
+              <a href="/tenant/termos-de-uso">📄 Termos de Uso</a>
+              <a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a>
+              <button type="button" data-action="logout" class="danger-item">⎋ Sair</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        
+        <div class="page-hero-card card">
+          <div>
+            <div class="hero-eyebrow">Configurações do ambiente</div>
+            <h2 class="hero-title">Central administrativa do assinante</h2>
+            <p class="hero-copy">Organize permissões, assinatura, parâmetros do agendamento on-line e configurações gerais do sistema sem perder a estrutura white-label já criada.</p>
+          </div>
+          <div class="panel-actions">
+            <a class="btn-primary" href="/tenant/configuracoes-gerais">Abrir configurações gerais</a>
+            <a class="btn-secondary" href="/tenant/meu-perfil">Meu perfil</a>
+          </div>
+        </div>
+
+        <div class="settings-hub-grid">
+          <div class="card settings-block">
+            <div class="settings-block-title">
+              <h3>Configurações da conta</h3>
+              <p class="muted">Gestão de acesso, perfis e plano contratado.</p>
+            </div>
+            <div class="settings-links">
+              <a class="settings-link" href="/tenant/meu-perfil"><span><strong>Meu perfil</strong><small>Dados pessoais, contato e preferências.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/usuarios"><span><strong>Usuários</strong><small>Convites, acessos e status de membros.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/cargos-e-permissoes"><span><strong>Cargos e permissões</strong><small>Níveis de acesso por função.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/assinatura"><span><strong>Assinatura</strong><small>Plano atual, cobrança e limites do tenant.</small></span><strong>›</strong></a>
+            </div>
+          </div>
+
+          <div class="card settings-block">
+            <div class="settings-block-title">
+              <h3>Configurações do Agendamento On-line</h3>
+              <p class="muted">Defina as regras que controlam a experiência de marcação.</p>
+            </div>
+            <div class="settings-links">
+              <a class="settings-link" href="/tenant/status-das-sessoes"><span><strong>Status das sessões</strong><small>Fluxos, etapas e etiquetas operacionais.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/formas-de-pagamento"><span><strong>Formas de pagamento</strong><small>Pix, dinheiro, cartão e condições aceitas.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/categorias-das-despesas"><span><strong>Categorias das despesas</strong><small>Classificação financeira do pet shop.</small></span><strong>›</strong></a>
+            </div>
+          </div>
+
+          <div class="card settings-block">
+            <div class="settings-block-title">
+              <h3>Configurações do sistema</h3>
+              <p class="muted">Integrações, branding, suporte e evolução da plataforma.</p>
+            </div>
+            <div class="settings-links">
+              <a class="settings-link" href="/tenant/appetzap"><span><strong>AppetZap</strong><small>Canal oficial de comunicação com WhatsApp.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/configuracoes-gerais"><span><strong>Configurações gerais</strong><small>White-label, identidade visual e dados gerais.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/suporte"><span><strong>Suporte</strong><small>Ajuda, tickets e canais de atendimento.</small></span><strong>›</strong></a>
+              <a class="settings-link" href="/tenant/atualizacoes"><span><strong>Atualizações</strong><small>Histórico da versão e próximos releases.</small></span><strong>›</strong></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="section-title">Resumo atual do tenant</div>
+            <div class="settings-grid">
+              <div class="setting-item"><strong>Marca</strong><span data-tenant-brand>LoopinPet</span></div>
+              <div class="setting-item"><strong>ID do assinante</strong><span data-tenant-id>—</span></div>
+              <div class="setting-item"><strong>Slug</strong><span data-tenant-slug>—</span></div>
+              <div class="setting-item"><strong>Domínio</strong><span data-tenant-domain>—</span></div>
+              <div class="setting-item"><strong>Suporte</strong><span data-tenant-support-email>—</span></div>
+              <div class="setting-item"><strong>WhatsApp</strong><span data-tenant-whatsapp>—</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="section-title">Próximos passos recomendados</div>
+            <ul class="simple-list">
+              <li>Configure usuários internos antes de liberar o ambiente para a equipe.</li>
+              <li>Revise os status das sessões para refletir o fluxo real do seu banho e tosa.</li>
+              <li>Complete o white-label em Configurações gerais para profissionalizar o ambiente.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+</body>
+</html>

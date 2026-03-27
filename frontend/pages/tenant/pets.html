@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Pets</title>
+  <script>(function(){try{var auth=JSON.parse(localStorage.getItem('loopinpet.auth')||'null');var tenant=auth&&auth.tenant?auth.tenant:{};var settings=auth&&auth.settings?auth.settings:{};var primary=tenant.primary_color||'#1F8560';var secondary=tenant.secondary_color||'#E67315';var accent=tenant.accent_color||'#8F8866';document.documentElement.style.setProperty('--accent', primary);document.documentElement.style.setProperty('--accent-dark', secondary);document.documentElement.style.setProperty('--accent-soft', primary+'1A');document.documentElement.style.setProperty('--brand-highlight', accent);document.documentElement.style.setProperty('--sidebar-bg-start', accent);document.documentElement.style.setProperty('--sidebar-bg-end', secondary);if(settings.surface_mode==='dark'){document.addEventListener('DOMContentLoaded', function(){document.body.classList.add('theme-dark');}, {once:true});}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/admin-crud.css" />
+  <link rel="stylesheet" href="../../assets/css/pets-page.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar"><div class="sidebar-logo sidebar-logo--boxed"><div class="sidebar-logo-header"><button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true"><div class="sidebar-brand-badge"><img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" /><img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" /></div></button></div></div><div class="sidebar-menu"></div><div class="sidebar-footer sidebar-footer-branding"><div class="sidebar-footer-line"></div><div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo"><div class="sidebar-footer-brand-badge"><img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" /><img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" /></div><div class="sidebar-footer-brand-copy"><strong>LoopinPet</strong><span>MVP 1.0</span></div></div></div></aside>
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-heading"><div class="page-title">Pets</div><div class="page-subtitle">Cadastro completo dos pets vinculados aos tutores.</div></div>
+        </div>
+        <div class="topbar-right">
+          <span class="badge-plan" data-tenant-plan>Plano Pro</span>
+          <div class="notification-menu" data-notification-menu>
+            <button class="notification-button" type="button" data-notification-toggle aria-expanded="false" aria-label="Abrir notificações"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M9 17a3 3 0 0 0 6 0"></path></svg><span class="notification-dot" aria-hidden="true"></span></button>
+            <div class="notification-dropdown" data-notification-dropdown><div class="notification-header"><strong>Notificações</strong><span class="notification-chip">IA + Sistema</span></div><div class="notification-item"><span class="notification-icon">🤖</span><div><strong>Insight da IA</strong><p>Existem pets sem foto ou aniversário. Complete os cadastros para melhorar campanhas e atendimento.</p><small>Agora</small></div></div></div>
+          </div>
+          <div class="user-menu" data-user-menu>
+            <button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false"><span class="user-avatar" data-user-initials>LP</span><span data-user-name>Administrador</span><span class="user-chip-caret" aria-hidden="true">▾</span></button>
+            <div class="user-dropdown" data-user-dropdown><div class="user-dropdown-header"><strong data-user-name>Administrador</strong><span data-tenant-brand>LoopinPet</span></div><a href="/tenant/meu-perfil">👤 Meu Perfil</a><a href="/tenant/suporte">💬 Suporte</a><a href="/tenant/termos-de-uso">📄 Termos de Uso</a><a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a><button type="button" data-action="logout" class="danger-item">⎋ Sair</button></div>
+          </div>
+        </div>
+      </header>
+      <section class="content">
+        <div data-pets-page>
+          <div class="summary-grid" data-summary></div>
+          <div class="pet-meta-toolbar">
+            <button class="pet-meta-chip" type="button" data-open-meta="pet_types">Tipo de Pet</button>
+            <button class="pet-meta-chip" type="button" data-open-meta="pet_sizes">Porte</button>
+            <button class="pet-meta-chip" type="button" data-open-meta="pet_breeds">Raça</button>
+            <button class="pet-meta-chip" type="button" data-open-meta="pet_preferences">Preferências</button>
+          </div>
+          <div class="page-toolbar"><div class="page-toolbar-left"><input class="search-input" data-search placeholder="Buscar pet, tutor, raça ou porte..." /></div><div class="page-toolbar-right"><button class="btn-primary" type="button" data-new>+ Novo pet</button></div></div>
+          <div class="crud-card"><table class="crud-table"><thead><tr><th>Foto</th><th data-sort="name">Pet</th><th data-sort="tutor_name">Tutor</th><th data-sort="pet_type_name">Tipo</th><th data-sort="breed_name">Raça</th><th data-sort="size_name">Porte</th><th data-sort="birth_date">Aniversário</th><th data-sort="status">Status</th><th>Ações</th></tr></thead><tbody data-tbody></tbody></table></div>
+
+          <div class="crud-modal" data-modal>
+            <div class="crud-modal-card">
+              <div class="crud-modal-header"><div><strong data-modal-title>Novo pet</strong><p class="mini-muted">Cadastre foto, aniversário e preferências para alimentar os combos da operação.</p></div><button class="btn-secondary" type="button" data-close>Fechar</button></div>
+              <form class="crud-form" data-form>
+                <label><span>Nome do pet</span><input name="name" required /></label>
+                <label><span>Tutor</span><select name="tutor_id" required><option value="">Selecione o tutor</option></select></label>
+                <label><span>Tipo de pet</span><select name="pet_type_id" required><option value="">Selecione o tipo</option></select></label>
+                <label><span>Raça</span><select name="breed_id"><option value="">Selecione a raça</option></select></label>
+                <label><span>Porte</span><select name="size_id"><option value="">Selecione o porte</option></select></label>
+                <label><span>Sexo</span><input name="gender" placeholder="Ex.: Macho" /></label>
+                <label><span>Data de aniversário</span><input type="date" name="birth_date" /></label>
+                <label><span>Foto do pet (URL)</span><input name="photo_url" placeholder="https://..." /></label>
+                <label class="full"><span>Temperamento / observações</span><input name="temperament" placeholder="Ex.: dócil, agitado, sensível a barulho" /></label>
+                <fieldset class="full"><legend>Preferências</legend><div class="check-grid" data-preferences-grid></div></fieldset>
+                <label class="check-item full"><input type="checkbox" name="is_active" checked />Ativo para agendamentos</label>
+                <input type="hidden" name="id" />
+                <div class="crud-modal-footer full"><button class="btn-secondary" type="button" data-cancel>Cancelar</button><button class="btn-primary" type="submit">Salvar pet</button></div>
+              </form>
+            </div>
+          </div>
+
+          <div class="crud-modal" data-meta-modal>
+            <div class="crud-modal-card">
+              <div class="crud-modal-header"><div><strong data-meta-title>Cadastros auxiliares</strong><p class="mini-muted">Gerencie tipos, portes, raças e preferências para alimentar os combos do cadastro.</p></div><button class="btn-secondary" type="button" data-meta-close>Fechar</button></div>
+              <div class="crud-form" style="padding-bottom:0">
+                <label><span>Cadastro</span><select data-meta-kind><option value="pet_types">Tipo de Pet</option><option value="pet_sizes">Porte</option><option value="pet_breeds">Raça</option><option value="pet_preferences">Preferências</option></select></label>
+              </div>
+              <form class="crud-form" data-meta-form>
+                <label><span>Nome</span><input name="name" required /></label>
+                <label data-meta-type-wrap style="display:none"><span>Tipo relacionado</span><select name="pet_type_id"><option value="">Tipo relacionado</option></select></label>
+                <label class="full"><span>Descrição</span><input name="description" /></label>
+                <label class="check-item full"><input type="checkbox" name="is_active" checked />Ativo no sistema</label>
+                <div class="crud-modal-footer full"><button class="btn-secondary" type="button" data-meta-cancel>Cancelar</button><button class="btn-primary" type="submit">Salvar cadastro</button></div>
+              </form>
+              <div class="crud-card" style="margin:0 24px 24px"><table class="crud-table meta-table"><thead><tr><th>Nome</th><th>Descrição</th><th>Tipo</th><th>Status</th><th>Ações</th></tr></thead><tbody data-meta-tbody></tbody></table></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" data-toast></div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+    import { initPetsPage } from '../../assets/js/pets-page.js';
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+    initPetsPage();
+  </script>
+</body>
+</html>

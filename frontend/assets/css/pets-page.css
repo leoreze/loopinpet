@@ -1,0 +1,10 @@
+.pet-meta-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:-4px 0 18px}
+.pet-meta-chip{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:999px;border:1px solid rgba(15,23,42,.08);background:#fff;color:#0f172a;font-weight:700;box-shadow:0 10px 24px rgba(15,23,42,.04);cursor:pointer}
+.pet-meta-chip:hover{border-color:rgba(31,133,96,.28);box-shadow:0 12px 26px rgba(31,133,96,.08)}
+.pet-avatar-cell{display:flex;align-items:center}
+.pet-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid rgba(15,23,42,.06);background:#f8fafc}
+.crud-form .photo-preview{width:72px;height:72px;border-radius:18px;object-fit:cover;background:#f8fafc;border:1px solid #e5e7eb}
+.check-item span{display:flex;flex-direction:column;gap:2px}
+.check-item span small{font-size:12px;color:#64748b}
+.meta-table td,.meta-table th{padding:12px}
+@media (max-width:900px){.pet-meta-toolbar{overflow:auto;flex-wrap:nowrap;padding-bottom:4px}.pet-meta-chip{white-space:nowrap}}

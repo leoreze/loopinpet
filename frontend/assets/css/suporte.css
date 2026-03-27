@@ -1,0 +1,122 @@
+.support-shell{
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+
+.support-card{
+  padding:24px;
+  border-radius:20px;
+}
+
+.support-callout-title{
+  margin:0 0 18px;
+  font-size:22px;
+  font-weight:800;
+  color:var(--color-text);
+}
+
+.support-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:28px;
+  align-items:center;
+}
+
+.support-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-weight:800;
+  font-size:18px;
+  text-decoration:none;
+}
+
+.support-link svg{
+  width:20px;
+  height:20px;
+  flex:0 0 20px;
+}
+
+.support-link--email{ color:#eb9b35; }
+.support-link--whatsapp{ color:#36b669; }
+.support-link--youtube{ color:#e10600; }
+
+.support-form-card h2{
+  margin:0 0 10px;
+  font-size:20px;
+  font-weight:800;
+}
+
+.support-form-card p{
+  margin:0 0 22px;
+  color:var(--color-text-soft);
+}
+
+.support-form{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.support-field{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.support-field label{
+  font-size:18px;
+  font-weight:700;
+  color:var(--color-text);
+}
+
+.support-field textarea{
+  width:100%;
+  min-height:146px;
+  resize:vertical;
+  border:1px solid var(--color-border);
+  border-radius:16px;
+  padding:16px 18px;
+  font:inherit;
+  color:var(--color-text);
+  background:#fff;
+  outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+
+.support-field textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px rgba(1,173,183,.10);
+}
+
+.support-form-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.support-feedback-message{
+  min-height:24px;
+  font-weight:700;
+}
+
+.support-feedback-message[data-state="success"]{ color:#16a34a; }
+.support-feedback-message[data-state="error"]{ color:#dc2626; }
+
+.support-version{
+  font-size:14px;
+  color:#98a2b3;
+  padding:0 6px;
+}
+
+@media (max-width: 768px){
+  .support-card{ padding:18px; border-radius:16px; }
+  .support-callout-title{ font-size:20px; }
+  .support-links{ gap:18px; }
+  .support-link{ font-size:16px; }
+  .support-field label{ font-size:16px; }
+  .support-form-footer{ align-items:flex-start; flex-direction:column-reverse; }
+}

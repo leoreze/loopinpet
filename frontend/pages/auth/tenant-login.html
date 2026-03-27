@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Sistema operacional do pet shop brasileiro</title>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <style>
+    .tenant-landing{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(1,173,183,.18), transparent 22%),
+        radial-gradient(circle at 92% 12%, rgba(230,115,21,.12), transparent 26%),
+        linear-gradient(180deg, #f7fbfb 0%, #eef6f4 55%, #f8fafc 100%);
+      color:#0f172a;
+      display:flex;
+      flex-direction:column;
+    }
+    .tenant-landing__header{
+      padding:22px 28px 0;
+    }
+    .tenant-landing__brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      font-weight:800;
+      color:#0f172a;
+    }
+    .tenant-landing__brand img{
+      width:auto;
+      height:42px;
+      object-fit:contain;
+    }
+    .tenant-landing__brand small{
+      display:block;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#64748b;
+      font-weight:700;
+    }
+    .tenant-landing__main{
+      flex:1;
+      display:grid;
+      grid-template-columns:minmax(0, 1.08fr) minmax(360px, .92fr);
+      gap:28px;
+      align-items:center;
+      padding:20px 28px 28px;
+    }
+    .tenant-hero{
+      padding:18px 6px 18px 0;
+    }
+    .tenant-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(31,133,96,.1);
+      color:#1F8560;
+      border:1px solid rgba(31,133,96,.14);
+      font-weight:800;
+      font-size:13px;
+      margin-bottom:18px;
+    }
+    .tenant-hero h1{
+      font-size:clamp(40px, 5vw, 66px);
+      line-height:1.02;
+      margin:0 0 16px;
+      letter-spacing:-.03em;
+      max-width:860px;
+    }
+    .tenant-hero .highlight{
+      color:#1F8560;
+    }
+    .tenant-hero p{
+      font-size:18px;
+      line-height:1.7;
+      color:#475569;
+      max-width:760px;
+      margin:0;
+    }
+    .tenant-hero__cta{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin:28px 0 24px;
+    }
+    .tenant-btn{
+      min-height:52px;
+      padding:0 22px;
+      border-radius:16px;
+      border:1px solid transparent;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      font-weight:800;
+      font-size:15px;
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+      text-decoration:none;
+    }
+    .tenant-btn:hover{ transform:translateY(-1px); }
+    .tenant-btn--primary{
+      background:linear-gradient(135deg, #1F8560 0%, #16a34a 100%);
+      color:#fff;
+      box-shadow:0 18px 36px rgba(31,133,96,.22);
+    }
+    .tenant-btn--secondary{
+      background:#fff;
+      color:#0f172a;
+      border-color:rgba(15,23,42,.08);
+      box-shadow:0 14px 28px rgba(15,23,42,.06);
+    }
+    .tenant-proof{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top:26px;
+      max-width:880px;
+    }
+    .tenant-proof__card{
+      padding:18px 18px 16px;
+      border-radius:20px;
+      background:rgba(255,255,255,.76);
+      border:1px solid rgba(148,163,184,.18);
+      box-shadow:0 18px 32px rgba(15,23,42,.04);
+      backdrop-filter:blur(14px);
+    }
+    .tenant-proof__card strong{
+      display:block;
+      font-size:26px;
+      margin-bottom:8px;
+      color:#0f172a;
+    }
+    .tenant-proof__card span{
+      display:block;
+      font-size:13px;
+      line-height:1.5;
+      color:#64748b;
+    }
+    .tenant-side{
+      padding:10px 0;
+    }
+    .tenant-panel{
+      position:relative;
+      overflow:hidden;
+      border-radius:28px;
+      padding:28px;
+      background:linear-gradient(155deg, #0f172a 0%, #163547 45%, #1F8560 100%);
+      color:#fff;
+      box-shadow:0 26px 60px rgba(15,23,42,.18);
+      min-height:560px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .tenant-panel::before,
+    .tenant-panel::after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      filter:blur(8px);
+      opacity:.38;
+    }
+    .tenant-panel::before{
+      inset:auto -60px 80px auto;
+      width:220px;
+      height:220px;
+      background:rgba(230,115,21,.45);
+    }
+    .tenant-panel::after{
+      inset:30px auto auto -80px;
+      width:200px;
+      height:200px;
+      background:rgba(1,173,183,.28);
+    }
+    .tenant-panel__top,
+    .tenant-panel__bottom{ position:relative; z-index:1; }
+    .tenant-panel h2{
+      font-size:28px;
+      line-height:1.15;
+      margin:0 0 12px;
+      max-width:420px;
+    }
+    .tenant-panel p{
+      margin:0;
+      color:rgba(255,255,255,.8);
+      line-height:1.7;
+    }
+    .tenant-panel__list{
+      display:grid;
+      gap:12px;
+      margin-top:22px;
+    }
+    .tenant-panel__item{
+      padding:16px 18px;
+      border-radius:18px;
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(10px);
+    }
+    .tenant-panel__item strong{
+      display:block;
+      font-size:14px;
+      margin-bottom:4px;
+    }
+    .tenant-panel__item span{
+      color:rgba(255,255,255,.76);
+      font-size:13px;
+      line-height:1.55;
+    }
+    .tenant-health{
+      margin-top:22px;
+      padding:16px 18px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .tenant-health p{
+      font-size:13px;
+      color:rgba(255,255,255,.76);
+      margin-top:6px;
+    }
+    .tenant-footer{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:0 28px 24px;
+      color:#64748b;
+      font-size:13px;
+      flex-wrap:wrap;
+    }
+    .tenant-footer b{ color:#1F8560; }
+    .tenant-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      z-index:1000;
+    }
+    .tenant-modal.is-open{ display:flex; }
+    .tenant-modal__backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(15,23,42,.48);
+      backdrop-filter:blur(12px);
+    }
+    .tenant-modal__dialog{
+      position:relative;
+      z-index:1;
+      width:min(100%, 520px);
+      max-height:min(88vh, 900px);
+      overflow:auto;
+      border-radius:24px;
+      background:#fff;
+      border:1px solid rgba(148,163,184,.18);
+      box-shadow:0 28px 80px rgba(15,23,42,.28);
+    }
+    .tenant-modal__header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      padding:22px 24px 16px;
+      border-bottom:1px solid rgba(148,163,184,.16);
+    }
+    .tenant-modal__eyebrow{
+      display:inline-flex;
+      padding:7px 12px;
+      border-radius:999px;
+      background:rgba(31,133,96,.1);
+      color:#1F8560;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .tenant-modal__header h3{
+      margin:0 0 8px;
+      font-size:26px;
+      line-height:1.08;
+      color:#0f172a;
+    }
+    .tenant-modal__header p{
+      margin:0;
+      color:#64748b;
+      line-height:1.6;
+      font-size:14px;
+    }
+    .tenant-modal__close{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(148,163,184,.22);
+      background:#fff;
+      color:#0f172a;
+      font-size:28px;
+      line-height:1;
+      cursor:pointer;
+    }
+    .tenant-modal__body{
+      padding:20px 24px 24px;
+    }
+    .tenant-modal .form-stack{ margin-top:0; }
+    .tenant-modal .form-stack label span{
+      font-size:13px;
+      letter-spacing:.01em;
+      color:#334155;
+    }
+    .tenant-modal .muted{ color:#64748b; }
+    .tenant-modal__divider{
+      margin:18px 0 4px;
+      padding-top:18px;
+      border-top:1px solid rgba(148,163,184,.16);
+      color:#475569;
+      font-size:13px;
+    }
+    .tenant-modal__footer{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-top:18px;
+      flex-wrap:wrap;
+    }
+    .tenant-inline-note{
+      font-size:12px;
+      color:#64748b;
+      line-height:1.6;
+    }
+    .tenant-modal .auth-feedback{ margin-top:14px; }
+    @media (max-width: 1200px){
+      .tenant-landing__main{ grid-template-columns:1fr; }
+      .tenant-proof{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+      .tenant-panel{ min-height:auto; }
+    }
+    @media (max-width: 860px){
+      .tenant-landing__header,
+      .tenant-landing__main,
+      .tenant-footer{ padding-left:18px; padding-right:18px; }
+      .tenant-proof{ grid-template-columns:1fr; }
+      .tenant-health{ flex-direction:column; }
+      .tenant-modal{ padding:14px; }
+      .tenant-modal__dialog{ width:100%; border-radius:20px; }
+      .tenant-modal__header,
+      .tenant-modal__body{ padding-left:18px; padding-right:18px; }
+      .tenant-hero p{ font-size:16px; }
+    }
+  </style>
+</head>
+<body class="tenant-landing">
+  <header class="tenant-landing__header">
+    <div class="tenant-landing__brand">
+      <img data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" />
+      <div>
+        <strong>LoopinPet</strong>
+        <small>O sistema operacional do pet shop brasileiro</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="tenant-landing__main">
+    <section class="tenant-hero">
+      <div class="tenant-badge">MVP 1.0 • White-label • Multi-tenant • Operação pet</div>
+      <h1>
+        Transforme o seu pet shop em uma operação mais <span class="highlight">rápida, organizada e vendável</span>.
+      </h1>
+      <p>
+        Centralize agenda, clientes, pets, serviços, financeiro e inteligência operacional em um único sistema.
+        Comece em minutos, teste o ambiente e acelere o crescimento do seu banho e tosa com uma experiência de SaaS pronta para escalar.
+      </p>
+
+      <div class="tenant-hero__cta">
+        <button class="tenant-btn tenant-btn--primary" type="button" data-open-modal="login-modal">Entrar no sistema</button>
+        <button class="tenant-btn tenant-btn--secondary" type="button" data-open-modal="signup-modal">Cadastrar pet shop</button>
+      </div>
+
+      <div class="tenant-proof">
+        <article class="tenant-proof__card">
+          <strong>Agenda + atendimento</strong>
+          <span>Visualize a operação do dia, organize check-in, pacotes, serviços e o fluxo do pet shop com menos retrabalho.</span>
+        </article>
+        <article class="tenant-proof__card">
+          <strong>CRM + fidelização</strong>
+          <span>Ative relacionamento, recorrência e crescimento com dados dos clientes, pets e oportunidades de reativação.</span>
+        </article>
+        <article class="tenant-proof__card">
+          <strong>IA + gestão</strong>
+          <span>Receba insights, alertas e leitura operacional para decidir melhor e crescer com mais previsibilidade.</span>
+        </article>
+      </div>
+    </section>
+
+    <aside class="tenant-side">
+      <section class="tenant-panel">
+        <div class="tenant-panel__top">
+          <h2>Entre, configure a marca e comece a operar com mais controle.</h2>
+          <p>
+            Pensado para pet shops, banho e tosa, day care, hospedagem, clínica e expansão white-label. Uma base comercial e operacional para tirar o negócio do improviso.
+          </p>
+
+          <div class="tenant-panel__list">
+            <div class="tenant-panel__item">
+              <strong>Cadastro inicial sem atrito</strong>
+              <span>Crie o assinante, gere o ambiente do pet shop e comece o onboarding sem mexer na estrutura atual.</span>
+            </div>
+            <div class="tenant-panel__item">
+              <strong>Pronto para crescer</strong>
+              <span>Base preparada para CRM, automação, fidelização, IA, white-label e evolução por módulos.</span>
+            </div>
+            <div class="tenant-panel__item">
+              <strong>Operação com cara de produto</strong>
+              <span>Uma experiência visual mais forte, com fluxo de entrada e cadastro pensado para conversão.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tenant-panel__bottom">
+          <div class="tenant-health">
+            <div>
+              <strong>Status do ambiente</strong>
+              <p data-health-detail>Consultando API e banco de dados...</p>
+            </div>
+            <span class="pill warning" data-health-badge>Validando</span>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="tenant-footer">
+    <span>© <span id="copyright-year"></span> LoopinPet. Todos os direitos reservados.</span>
+    <span><b>MVP 1.0</b> • Sistema operacional do pet shop brasileiro</span>
+  </footer>
+
+  <section class="tenant-modal" id="login-modal" aria-hidden="true">
+    <div class="tenant-modal__backdrop" data-close-modal></div>
+    <div class="tenant-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+      <div class="tenant-modal__header">
+        <div>
+          <span class="tenant-modal__eyebrow">Entrar</span>
+          <h3 id="login-modal-title">Acesse o ambiente do assinante</h3>
+          <p>Faça login para abrir a operação, acompanhar a agenda e continuar a gestão do seu pet shop.</p>
+        </div>
+        <button class="tenant-modal__close" type="button" aria-label="Fechar" data-close-modal>&times;</button>
+      </div>
+      <div class="tenant-modal__body">
+        <form id="login-form" class="form-stack">
+          <label>
+            <span>E-mail</span>
+            <input type="email" name="email" placeholder="admin@petshop.com" required />
+          </label>
+
+          <label>
+            <span>Senha</span>
+            <input type="password" name="password" placeholder="••••••••" required />
+          </label>
+
+          <div class="tenant-modal__footer">
+            <span class="tenant-inline-note">Seu acesso leva você direto para o painel administrativo do assinante.</span>
+            <button class="btn-primary" type="submit">Entrar no admin</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="tenant-modal" id="signup-modal" aria-hidden="true">
+    <div class="tenant-modal__backdrop" data-close-modal></div>
+    <div class="tenant-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="signup-modal-title">
+      <div class="tenant-modal__header">
+        <div>
+          <span class="tenant-modal__eyebrow">Cadastrar</span>
+          <h3 id="signup-modal-title">Crie seu pet shop no LoopinPet</h3>
+          <p>Abra o ambiente inicial, defina a marca e entre com o responsável do sistema sem quebrar a estrutura atual.</p>
+        </div>
+        <button class="tenant-modal__close" type="button" aria-label="Fechar" data-close-modal>&times;</button>
+      </div>
+      <div class="tenant-modal__body">
+        <form id="signup-form" class="form-stack">
+          <label>
+            <span>Nome do pet shop</span>
+            <input type="text" name="tenantName" placeholder="PetFunny Ribeirão" required />
+          </label>
+
+          <label>
+            <span>Nome da marca white-label</span>
+            <input type="text" name="brandName" placeholder="PetFunny" />
+          </label>
+
+          <label>
+            <span>Responsável</span>
+            <input type="text" name="fullName" placeholder="Leonidas Rezende" required />
+          </label>
+
+          <label>
+            <span>E-mail</span>
+            <input type="email" name="email" placeholder="admin@petfunny.com" required />
+          </label>
+
+          <label>
+            <span>Senha</span>
+            <input type="password" name="password" placeholder="Mínimo 6 caracteres" required />
+          </label>
+
+          <div class="tenant-modal__divider">Ao concluir, o LoopinPet cria seu assinante inicial e libera o acesso administrativo.</div>
+
+          <div class="tenant-modal__footer">
+            <span class="tenant-inline-note">Ideal para validar o ambiente, configurar a identidade e começar a operar rápido.</span>
+            <button class="btn-primary" type="submit">Criar e acessar</button>
+          </div>
+        </form>
+
+        <div id="auth-feedback" class="auth-feedback info">Preencha os dados e prossiga. O retorno do backend será exibido aqui.</div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="../../assets/js/tenant-auth.js"></script>
+</body>
+</html>
