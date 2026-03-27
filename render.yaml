@@ -4,10 +4,10 @@ services:
     runtime: node
     rootDir: backend
     plan: free
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && node src/server.js
+    buildCommand: npm install
+    startCommand: node src/server.js
     healthCheckPath: /api/health
-    autoDeploy: true
+    autoDeployTrigger: commit
     envVars:
       - key: NODE_ENV
         value: production
