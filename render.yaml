@@ -4,9 +4,8 @@ services:
     runtime: node
     rootDir: backend
     plan: free
-    buildCommand: npm install
-    startCommand: npm start
-    healthCheckPath: /api/health
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node src/server.js
     autoDeploy: true
     envVars:
       - key: NODE_ENV
