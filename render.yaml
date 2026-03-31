@@ -5,9 +5,9 @@ services:
     rootDir: backend
     plan: free
     buildCommand: npm install
-    startCommand: node src/server.js
+    startCommand: npm start
     healthCheckPath: /api/health
-    autoDeployTrigger: commit
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
