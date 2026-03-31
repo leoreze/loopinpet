@@ -1,0 +1,1 @@
+Ajustes do modal de Pacotes: campo Porte integrado ao banco, filtro de serviços por porte, reorganização do layout do modal, botão + Adicionar serviço reposicionado e cálculo contínuo de total sem desconto e total com desconto com base nos serviços selecionados.

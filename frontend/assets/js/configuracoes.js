@@ -19,6 +19,68 @@ const faviconFileInput = form?.querySelector('input[name="faviconFile"]');
 const logoHiddenInput = form?.querySelector('input[name="logoUrl"]');
 const faviconHiddenInput = form?.querySelector('input[name="faviconUrl"]');
 
+
+function clampColorValue(value, min = 0, max = 255) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function normalizeHex(color, fallback = '#1F8560') {
+  const raw = String(color || '').trim();
+  if (/^#[0-9a-fA-F]{3}$/.test(raw)) {
+    return '#' + raw.slice(1).split('').map((part) => part + part).join('');
+  }
+  return /^#[0-9a-fA-F]{6}$/.test(raw) ? raw : fallback;
+}
+
+function hexToRgb(color) {
+  const hex = normalizeHex(color).slice(1);
+  return {
+    r: Number.parseInt(hex.slice(0, 2), 16),
+    g: Number.parseInt(hex.slice(2, 4), 16),
+    b: Number.parseInt(hex.slice(4, 6), 16)
+  };
+}
+
+function rgbToHex(rgb) {
+  return `#${[rgb.r, rgb.g, rgb.b].map((value) => clampColorValue(Math.round(value)).toString(16).padStart(2, '0')).join('')}`;
+}
+
+function mixHex(color, mixWith = '#000000', ratio = 0.2) {
+  const base = hexToRgb(color);
+  const target = hexToRgb(mixWith);
+  const clamped = Math.max(0, Math.min(1, Number(ratio) || 0));
+  return rgbToHex({
+    r: base.r + (target.r - base.r) * clamped,
+    g: base.g + (target.g - base.g) * clamped,
+    b: base.b + (target.b - base.b) * clamped
+  });
+}
+
+function deriveSurfacePalette(primary, secondary, accent, surfaceMode = 'light') {
+  const normalizedPrimary = normalizeHex(primary, '#1F8560');
+  const normalizedSecondary = normalizeHex(secondary, '#E67315');
+  const normalizedAccent = normalizeHex(accent, '#8F8866');
+  if (surfaceMode !== 'dark') {
+    return {
+      accent: normalizedPrimary,
+      accentDark: mixHex(normalizedSecondary, '#0f172a', 0.14),
+      accentSoft: `${normalizedPrimary}1A`,
+      brandHighlight: normalizedAccent,
+      sidebarStart: normalizedAccent,
+      sidebarEnd: normalizedSecondary
+    };
+  }
+  return {
+    accent: mixHex(normalizedPrimary, '#ffffff', 0.1),
+    accentDark: mixHex(normalizedSecondary, '#000000', 0.42),
+    accentSoft: `${mixHex(normalizedPrimary, '#000000', 0.55)}33`,
+    brandHighlight: mixHex(normalizedAccent, '#000000', 0.28),
+    sidebarStart: mixHex(normalizedAccent, '#020617', 0.62),
+    sidebarEnd: mixHex(normalizedSecondary, '#020617', 0.7)
+  };
+}
+
+
 function setFeedback(message, type = 'info') {
   if (!feedback) return;
   feedback.textContent = message;
@@ -39,6 +101,13 @@ function currentBranding() {
     supportEmail: auth.tenant?.support_email || '',
     whatsappNumber: auth.tenant?.whatsapp_number || '',
     bookingUrl: auth.tenant?.booking_url || '',
+    addressLine: auth.tenant?.address_line || '',
+    addressNumber: auth.tenant?.address_number || '',
+    addressDistrict: auth.tenant?.address_district || '',
+    addressCity: auth.tenant?.address_city || '',
+    addressState: auth.tenant?.address_state || '',
+    addressZip: auth.tenant?.address_zip || '',
+    addressComplement: auth.tenant?.address_complement || '',
     metaTitle: auth.settings?.meta_title || '',
     metaDescription: auth.settings?.meta_description || '',
     loginTitle: auth.settings?.login_title || '',
@@ -116,12 +185,13 @@ function renderPreview() {
     `;
   }
 
-  document.documentElement.style.setProperty('--accent', primary);
-  document.documentElement.style.setProperty('--accent-dark', secondary);
-  document.documentElement.style.setProperty('--brand-highlight', accent);
-  document.documentElement.style.setProperty('--accent-soft', `${primary}1A`);
-  document.documentElement.style.setProperty('--sidebar-bg-start', accent);
-  document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+  const palette = deriveSurfacePalette(primary, secondary, accent, surfaceMode);
+  document.documentElement.style.setProperty('--accent', palette.accent);
+  document.documentElement.style.setProperty('--accent-dark', palette.accentDark);
+  document.documentElement.style.setProperty('--brand-highlight', palette.brandHighlight);
+  document.documentElement.style.setProperty('--accent-soft', palette.accentSoft);
+  document.documentElement.style.setProperty('--sidebar-bg-start', palette.sidebarStart);
+  document.documentElement.style.setProperty('--sidebar-bg-end', palette.sidebarEnd);
   document.body.classList.toggle('theme-dark', surfaceMode === 'dark');
 }
 

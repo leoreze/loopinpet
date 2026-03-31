@@ -9,6 +9,7 @@ import attendanceRoutes from './routes/attendanceRoutes.js';
 import supportRoutes from './routes/supportRoutes.js';
 import managementRoutes from './routes/managementRoutes.js';
 import aiManagerRoutes from './routes/aiManagerRoutes.js';
+import packageRoutes from './routes/packageRoutes.js';
 import { healthcheckDb } from './config/db.js';
 import { requireAuth } from './middleware/auth.js';
 import { getMyProfile, updateMyPassword, updateMyProfile } from './services/meProfileService.js';
@@ -45,6 +46,7 @@ app.use('/api/tenant/attendance', attendanceRoutes);
 app.use('/api/tenant/support', supportRoutes);
 app.use('/api/tenant/manage', managementRoutes);
 app.use('/api/tenant/ai', aiManagerRoutes);
+app.use('/api/tenant/packages', packageRoutes);
 
 app.get('/tenant/login', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../../frontend/pages/auth/tenant-login.html'));
@@ -56,11 +58,14 @@ const tenantPages = [
   'atendimento',
   'configuracoes',
   'configuracoes-gerais',
+  'horario-de-funcionamento',
   'meu-perfil',
   'usuarios',
   'cargos-e-permissoes',
   'pets',
   'services',
+  'pacotes',
+  'financeiro',
   'assinatura',
   'status-das-sessoes',
   'formas-de-pagamento',
@@ -71,7 +76,8 @@ const tenantPages = [
   'atualizacoes',
   'termos-de-uso',
   'politicas-de-privacidade',
-  'tutores'
+  'tutores',
+  'colaboradores'
 ];
 
 tenantPages.forEach((page) => {

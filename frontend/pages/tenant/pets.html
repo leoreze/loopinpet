@@ -47,7 +47,23 @@
               <div class="crud-modal-header"><div><strong data-modal-title>Novo pet</strong><p class="mini-muted">Cadastre foto, aniversário e preferências para alimentar os combos da operação.</p></div><button class="btn-secondary" type="button" data-close>Fechar</button></div>
               <form class="crud-form" data-form>
                 <label><span>Nome do pet</span><input name="name" required /></label>
-                <label><span>Tutor</span><select name="tutor_id" required><option value="">Selecione o tutor</option></select></label>
+                <div class="full tutor-field-block">
+                  <div class="tutor-field-header">
+                    <span>Tutor</span>
+                    <div class="tutor-mode-switch" role="tablist" aria-label="Modo de seleção do tutor">
+                      <button class="is-active" type="button" data-tutor-mode="select">Selecionar</button>
+                      <button type="button" data-tutor-mode="search">Buscar</button>
+                    </div>
+                  </div>
+                  <div class="tutor-mode-panel is-active" data-tutor-panel="select">
+                    <select name="tutor_id" required><option value="">Selecione o tutor</option></select>
+                  </div>
+                  <div class="tutor-mode-panel" data-tutor-panel="search">
+                    <input type="text" data-tutor-search placeholder="Digite nome ou celular/WhatsApp do tutor" autocomplete="off" />
+                    <div class="tutor-search-results" data-tutor-results></div>
+                    <div class="tutor-selected-chip" data-tutor-selected hidden></div>
+                  </div>
+                </div>
                 <label><span>Tipo de pet</span><select name="pet_type_id" required><option value="">Selecione o tipo</option></select></label>
                 <label><span>Raça</span><select name="breed_id"><option value="">Selecione a raça</option></select></label>
                 <label><span>Porte</span><select name="size_id"><option value="">Selecione o porte</option></select></label>

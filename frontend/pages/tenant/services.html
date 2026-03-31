@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../../assets/css/tokens.css" />
   <link rel="stylesheet" href="../../assets/css/layout.css" />
   <link rel="stylesheet" href="../../assets/css/admin-crud.css" />
+  <link rel="stylesheet" href="../../assets/css/pets-page.css" />
 </head>
 <body>
   <div class="app">
@@ -87,10 +88,13 @@
       <section class="content">
         <div data-management-page>
       <div class="summary-grid" data-summary></div>
-      <div class="page-toolbar"><div class="page-toolbar-left"><input class="search-input" data-search placeholder="Buscar..." /></div><div class="page-toolbar-right"><button class="btn-primary" type="button" data-new>+ Novo</button></div></div>
-      <div class="crud-card"><table class="crud-table"><thead><tr><th data-sort="name">Serviço</th><th data-sort="duration_minutes">Duração</th><th data-sort="price_cents">Preço</th><th data-sort="status">Status</th><th data-sort="description">Descrição</th><th>Ações</th></tr></thead><tbody data-tbody></tbody></table></div>
-      <div class="crud-modal" data-modal><div class="crud-modal-card"><div class="crud-modal-header"><div><strong data-modal-title>Novo registro</strong></div><button class="btn-secondary" type="button" data-close>Fechar</button></div><form class="crud-form" data-form><label><span>Serviço</span><input name="name" required /></label><label><span>Categoria</span><input name="category" /></label><label><span>Duração (min)</span><input name="duration_minutes" type="number" min="15" value="60" required /></label><label><span>Preço</span><input name="price" placeholder="0,00" /></label><label><span>Status</span><select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label class="full"><span>Descrição</span><textarea name="description"></textarea></label><input type="hidden" name="id" /><div class="crud-modal-footer full"><button class="btn-secondary" type="button" data-cancel>Cancelar</button><button class="btn-primary" type="submit">Salvar</button></div></form></div></div>
+      <div class="pet-meta-toolbar"><button class="pet-meta-chip" type="button" data-manage-categories>Categorias</button></div>
+      <div class="page-toolbar"><div class="page-toolbar-left"><input class="search-input" data-search placeholder="Buscar serviço, categoria ou descrição..." /></div><div class="page-toolbar-right"><button class="btn-primary" type="button" data-new>+ Novo serviço</button></div></div>
+      <div class="crud-card"><table class="crud-table"><thead><tr><th data-sort="name">Serviço</th><th data-sort="category">Categoria</th><th data-sort="pet_size">Porte</th><th data-sort="duration_minutes">Duração</th><th data-sort="price_cents">Preço</th><th data-sort="status">Status</th><th data-sort="description">Descrição</th><th>Ações</th></tr></thead><tbody data-tbody></tbody></table></div>
+      <div class="crud-modal" data-modal><div class="crud-modal-card"><div class="crud-modal-header"><div><strong data-modal-title>Novo registro</strong></div><button class="btn-secondary" type="button" data-close>Fechar</button></div><form class="crud-form" data-form><label><span>Serviço</span><input name="name" required /></label><label><span>Categoria</span><select name="category"><option value="">Selecione</option></select></label><label><span>Duração (min)</span><input name="duration_minutes" type="number" min="15" value="60" required /></label><label><span>Porte do pet</span><select name="pet_size_id"><option value="">Selecione</option></select></label><label><span>Preço</span><input name="price" placeholder="0,00" /></label><label><span>Status</span><select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label class="full"><span>Descrição</span><textarea name="description"></textarea></label><input type="hidden" name="id" /><div class="crud-modal-footer full"><button class="btn-secondary" type="button" data-cancel>Cancelar</button><button class="btn-primary" type="submit">Salvar</button></div></form></div></div>
     </div>
+      <div class="crud-modal" data-category-modal><div class="crud-modal-card crud-modal-card--meta"><div class="crud-modal-header"><div><strong style="display:block;">Categorias de serviços</strong><small style="display:block; margin-top:4px;">Cadastre as categorias que alimentam o combo do novo serviço.</small></div><button class="btn-secondary" type="button" data-category-close>Fechar</button></div><form class="crud-form meta-manager-form" data-category-form><label><span>Nome</span><input name="name" required /></label><label class="full"><span>Descrição</span><textarea name="description"></textarea></label><label class="full"><span>Status</span><select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><input type="hidden" name="id" /><div class="crud-modal-footer full"><button class="btn-secondary" type="button" data-category-cancel>Cancelar</button><button class="btn-primary" type="submit">Salvar cadastro</button></div></form><div class="crud-card meta-table-card"><table class="crud-table"><thead><tr><th>Nome</th><th>Descrição</th><th>Status</th><th>Ações</th></tr></thead><tbody data-category-list></tbody></table></div></div></div>
+
       </section>
     </main>
   </div>
@@ -104,7 +108,7 @@
     buildSidebar(navigation.tenant_admin);
     initSidebarShell();
     hydrateTenantUi();
-    initManagementPage('services');
+    await initManagementPage('services');
   </script>
 </body>
 </html>

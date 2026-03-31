@@ -31,6 +31,46 @@
   <link rel="stylesheet" href="../../assets/css/tokens.css" />
   <link rel="stylesheet" href="../../assets/css/layout.css" />
   
+
+  <style>
+    .dashboard-grid{display:grid;grid-template-columns:2fr 1.1fr;gap:20px;align-items:start}
+    .dashboard-stack{display:grid;gap:20px}
+    .dashboard-surface{background:var(--surface-card,#fff);box-shadow:var(--card-shadow-strong,0 24px 60px rgba(15,23,42,.08));border:1px solid var(--border-strong,rgba(148,163,184,.18))}
+    .theme-dark body,.theme-dark .main{color:var(--text-strong,#f8fafc)}
+    .main,.content{background:var(--shell-bg,#f4f7fb)}
+    .card,.page-hero-card,.topbar{background:var(--surface-card,#fff)}
+    .topbar{background:var(--topbar-bg,rgba(255,255,255,.92));backdrop-filter:blur(16px)}
+    .kpi-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+    .kpi-card .kpi{font-size:2rem}
+    .soft-line{color:var(--text-soft,#64748b);font-size:.86rem;margin-top:4px}
+    .table-empty{text-align:center;color:var(--text-soft,#64748b);padding:24px}
+    .dashboard-alert{padding:16px 18px;border-radius:18px;border:1px solid var(--border-strong,rgba(148,163,184,.18));background:var(--surface-card-alt,#eef4f8)}
+    .dashboard-alert strong{display:block;margin-bottom:6px}
+    .dashboard-alert p{margin:0;color:var(--text-soft,#64748b);line-height:1.5}
+    .dashboard-alert--warning{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.28)}
+    .dashboard-alert--good{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.28)}
+    .dashboard-alert--neutral{background:rgba(59,130,246,.10);border-color:rgba(59,130,246,.22)}
+    .compact{align-items:center;justify-content:space-between;gap:12px}
+    .pill-qty{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 10px;border-radius:999px;background:var(--accent-soft,rgba(31,133,96,.14));color:var(--accent,#1F8560);font-weight:800}
+    .revenue-chart{display:flex;gap:12px;align-items:flex-end;min-height:200px;padding:12px 4px 4px}
+    .revenue-bar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0}
+    .revenue-bar{width:100%;max-width:38px;border-radius:16px 16px 8px 8px;background:linear-gradient(180deg,var(--accent,#1F8560),var(--accent-dark,#E67315));min-height:18px;box-shadow:0 14px 28px rgba(15,23,42,.12)}
+    .revenue-bar-item span{font-size:.78rem;color:var(--text-soft,#64748b)}
+    .dashboard-chat{display:grid;gap:16px}
+    .dashboard-chat-window{display:grid;gap:12px;max-height:420px;overflow:auto;padding-right:6px}
+    .dashboard-chat-bubble{padding:14px 16px;border-radius:18px;background:var(--surface-card-alt,#eef4f8);border:1px solid var(--border-strong,rgba(148,163,184,.18));display:grid;gap:6px}
+    .dashboard-chat-bubble strong{font-size:.94rem}
+    .dashboard-chat-bubble div{line-height:1.55;color:var(--text-strong,#0f172a)}
+    .dashboard-chat-bubble span{font-size:.78rem;color:var(--text-soft,#64748b)}
+    .dashboard-chat-bubble--user{background:var(--accent-soft,rgba(31,133,96,.14));border-color:transparent}
+    .dashboard-chat-form{display:grid;grid-template-columns:1fr auto;gap:10px}
+    .dashboard-chat-form input{min-height:48px;border-radius:14px;border:1px solid var(--border-strong,rgba(148,163,184,.18));padding:0 14px;background:var(--surface-card,#fff);color:var(--text-strong,#0f172a)}
+    .dashboard-chat-actions{display:flex;flex-wrap:wrap;gap:8px}
+    .dashboard-chat-actions button{border:none;border-radius:999px;padding:8px 12px;background:var(--accent-soft,rgba(31,133,96,.14));color:var(--accent,#1F8560);font-weight:700;cursor:pointer}
+    @media (max-width:1280px){.kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}.dashboard-chat-window{max-height:320px}}
+    @media (max-width:900px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+
 </head>
 <body>
   <div class="app">
@@ -138,108 +178,90 @@
       </header>
 
       <section class="content">
-        
-        <div class="hero-band" data-onboarding-banner>
+        <div class="page-hero-card card dashboard-surface">
           <div>
-            <h2>Seu painel já está pronto para ficar com a cara da sua marca.</h2>
-            <p>
-              Comece personalizando nome, logo, cores, contatos e identidade visual do sistema. Assim que essa configuração inicial for concluída, este aviso será ocultado automaticamente.
-            </p>
-            <div class="highlight-metrics">
-              <span class="highlight-chip">Marca: <strong data-tenant-brand>LoopinPet</strong></span>
-              <span class="highlight-chip">Slug: <strong data-tenant-slug>—</strong></span>
-              <span class="highlight-chip">Admin: <strong data-user-name>Leonidas</strong></span>
-            </div>
+            <div class="hero-eyebrow">Painel operacional</div>
+            <h2 class="hero-title">O que mais importa agora no seu pet shop</h2>
+            <p class="hero-copy">Priorizei o que já faz sentido nesta fase do LoopinPet: agenda do dia, receita prevista, pagamentos pendentes, base ativa, pacotes recorrentes e leitura prática da operação.</p>
           </div>
           <div class="panel-actions">
-            <a class="btn-primary" href="/tenant/configuracoes-gerais">Customizar sistema</a>
-            <a class="btn-secondary" href="/tenant/agenda">Ver agenda</a>
+            <a class="btn-primary" href="/tenant/agenda">Abrir agenda</a>
+            <a class="btn-secondary" href="/tenant/pacotes">Ver pacotes</a>
           </div>
         </div>
 
         <div class="kpi-grid">
-          <div class="card kpi-card">
-            <div class="kpi-label">Agendamentos Hoje</div>
-            <div class="kpi">34</div>
-            <div class="kpi-foot">+8% vs ontem</div>
-          </div>
-
-          <div class="card kpi-card">
-            <div class="kpi-label">Receita Hoje</div>
-            <div class="kpi">R$ 2.800</div>
-            <div class="kpi-foot">Meta diária: R$ 3.500</div>
-          </div>
-
-          <div class="card kpi-card">
-            <div class="kpi-label">Check-ins Ativos</div>
-            <div class="kpi">9</div>
-            <div class="kpi-foot">4 aguardando checkout</div>
-          </div>
-
-          <div class="card kpi-card">
-            <div class="kpi-label">Pets no Day Care</div>
-            <div class="kpi">5</div>
-            <div class="kpi-foot">2 com saída até 18h</div>
-          </div>
+          <div class="card kpi-card dashboard-surface"><div class="kpi-label">Agendamentos hoje</div><div class="kpi" data-dashboard-appointments-today>0</div><div class="kpi-foot" data-dashboard-occupied-today>0% ocupação do dia</div></div>
+          <div class="card kpi-card dashboard-surface"><div class="kpi-label">Receita prevista hoje</div><div class="kpi" data-dashboard-revenue-today>R$ 0,00</div><div class="kpi-foot" data-dashboard-revenue-week>R$ 0,00</div></div>
+          <div class="card kpi-card dashboard-surface"><div class="kpi-label">Pagamentos pendentes</div><div class="kpi" data-dashboard-pending-payments>0</div><div class="kpi-foot">Cobrar e ajustar forma de pagamento</div></div>
+          <div class="card kpi-card dashboard-surface"><div class="kpi-label">Pacotes ativos</div><div class="kpi" data-dashboard-active-packages>0</div><div class="kpi-foot">Receita previsível em andamento</div></div>
+          <div class="card kpi-card dashboard-surface"><div class="kpi-label">Ticket médio</div><div class="kpi" data-dashboard-average-ticket>R$ 0,00</div><div class="kpi-foot">Últimos 30 dias da operação</div></div>
         </div>
 
-        <div class="grid-2">
-          <div class="card">
-            <div class="section-title">Agenda do Dia</div>
-            <table class="table">
-              <thead>
-                <tr><th>Hora</th><th>Pet</th><th>Serviço</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>09:00</td><td>Thor</td><td>Banho e Tosa</td><td><span class="status confirmado">Confirmado</span></td></tr>
-                <tr><td>10:30</td><td>Luna</td><td>Banho</td><td><span class="status pendente">Pendente</span></td></tr>
-                <tr><td>11:00</td><td>Meg</td><td>Hidratação</td><td><span class="status confirmado">Confirmado</span></td></tr>
-                <tr><td>14:00</td><td>Fred</td><td>Day Care</td><td><span class="status confirmado">Confirmado</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="card">
-            <div class="section-title">Alertas e Ações</div>
-            <div class="list">
-              <div class="list-item"><div><strong>3 clientes sem retorno há 45 dias</strong><span>Campanha de reativação recomendada</span></div><button class="cta">Ver</button></div>
-              <div class="list-item"><div><strong>2 invoices vencem hoje</strong><span>Cobrança amigável pendente</span></div><button class="cta">Cobrar</button></div>
-              <div class="list-item"><div><strong>Agenda ociosa amanhã às 15h</strong><span>Sugerir ação promocional</span></div><button class="cta">Ativar</button></div>
+        <div class="dashboard-grid">
+          <div class="dashboard-stack">
+            <div class="grid-2">
+              <div class="card dashboard-surface">
+                <div class="section-title">Agenda do dia</div>
+                <table class="table">
+                  <thead><tr><th>Hora</th><th>Pet e tutor</th><th>Serviço</th><th>Status</th><th>Origem</th></tr></thead>
+                  <tbody data-dashboard-agenda-body><tr><td colspan="5" class="table-empty">Carregando agenda...</td></tr></tbody>
+                </table>
+              </div>
+              <div class="card dashboard-surface">
+                <div class="section-title">Alertas e prioridades</div>
+                <div class="list" data-dashboard-alerts></div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="grid-3">
-          <div class="card">
-            <div class="section-title">Resumo Financeiro</div>
-            <table class="table"><tbody>
-              <tr><td>Caixa Aberto</td><td>Sim</td></tr>
-              <tr><td>Recebimentos da Semana</td><td>R$ 12.450</td></tr>
-              <tr><td>Inadimplência</td><td>R$ 1.120</td></tr>
-              <tr><td>Pacotes Ativos</td><td>47</td></tr>
-            </tbody></table>
-          </div>
+            <div class="grid-2">
+              <div class="card dashboard-surface">
+                <div class="section-title">Receita dos últimos 7 dias</div>
+                <div class="revenue-chart" data-dashboard-revenue-bars></div>
+                <div class="soft-line" data-dashboard-revenue-caption>Sem dados ainda.</div>
+              </div>
+              <div class="card dashboard-surface">
+                <div class="section-title">Serviços que mais puxam agenda</div>
+                <div class="list" data-dashboard-top-services></div>
+              </div>
+            </div>
 
-          <div class="card">
-            <div class="section-title">White-label do assinante</div>
-            <div class="settings-grid">
-              <div class="setting-item"><strong>Marca</strong><span data-tenant-brand>LoopinPet</span></div>
-              <div class="setting-item"><strong>Tenant ID</strong><span data-tenant-id>—</span></div>
-              <div class="setting-item"><strong>Slug</strong><span data-tenant-slug>—</span></div>
-              <div class="setting-item"><strong>Admin</strong><span data-user-name>Leonidas</span></div>
+            <div class="card dashboard-surface">
+              <div class="section-title">Últimos movimentos da operação</div>
+              <table class="table">
+                <thead><tr><th>Data</th><th>Pet</th><th>Serviço</th><th>Status</th><th>Pagamento</th></tr></thead>
+                <tbody data-dashboard-recent-body><tr><td colspan="5" class="table-empty">Carregando histórico...</td></tr></tbody>
+              </table>
             </div>
           </div>
 
-          <div class="card">
-            <div class="section-title">Gerente Virtual IA</div>
-            <div class="list">
-              <div class="list-item"><div><strong>Upsell recomendado</strong><span>Oferecer pacote mensal para 8 tutores recorrentes</span></div></div>
-              <div class="list-item"><div><strong>Risco de churn</strong><span>4 clientes reduziram frequência nas últimas semanas</span></div></div>
-              <div class="list-item"><div><strong>Sugestão operacional</strong><span>Antecipar encaixes de pequeno porte no período da manhã</span></div></div>
+          <div class="dashboard-stack">
+            <div class="card dashboard-surface">
+              <div class="section-title">Base ativa do sistema</div>
+              <div class="settings-grid">
+                <div class="setting-item"><strong>Tutores ativos</strong><span data-dashboard-tutors-total>0</span></div>
+                <div class="setting-item"><strong>Pets ativos</strong><span data-dashboard-pets-total>0</span></div>
+                <div class="setting-item"><strong>Serviços ativos</strong><span data-dashboard-services-total>0</span></div>
+                <div class="setting-item"><strong>Marca</strong><span data-tenant-brand>LoopinPet</span></div>
+              </div>
+            </div>
+
+            <div class="card dashboard-surface dashboard-chat">
+              <div class="section-title">Assistente do dashboard</div>
+              <p class="soft-line">Pergunte sobre agenda, pagamentos pendentes, pacotes, caixa previsto ou oportunidades de receita.</p>
+              <div class="dashboard-chat-actions">
+                <button type="button" data-dashboard-chat-suggestion="O que mais pede atenção no meu dashboard agora?">Radar agora</button>
+                <button type="button" data-dashboard-chat-suggestion="Como eu aumento a ocupação da agenda desta semana?">Ocupar agenda</button>
+                <button type="button" data-dashboard-chat-suggestion="Quais pagamentos pendentes devo atacar primeiro?">Cobrança</button>
+              </div>
+              <div class="dashboard-chat-window" data-dashboard-chat-messages></div>
+              <form class="dashboard-chat-form" data-dashboard-chat-form>
+                <input type="text" data-dashboard-chat-input placeholder="Ex.: onde está a maior oportunidade de receita desta semana?" />
+                <button type="submit" class="btn-primary" data-dashboard-chat-send>Enviar</button>
+              </form>
             </div>
           </div>
         </div>
-
       </section>
     </main>
   </div>
@@ -247,6 +269,7 @@
     import { navigation } from '../../config/navigation.js';
     import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
     import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+    import '../../assets/js/dashboard.js';
 
     await requireTenantAuth();
     buildSidebar(navigation.tenant_admin);

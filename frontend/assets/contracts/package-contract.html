@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termo de Adesão do Pacote</title>
+  <style>
+    :root {
+      --primary: #11b3bd;
+      --primary-dark: #0f9aa3;
+      --bg: #f4f7f9;
+      --card: #ffffff;
+      --text: #22313f;
+      --muted: #667085;
+      --border: #d9e2e7;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eef7f8 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .contract-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .contract-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid rgba(17, 179, 189, 0.08);
+    }
+
+    .contract-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #16c5cf 100%);
+      color: #fff;
+      padding: 28px 32px;
+    }
+
+    .contract-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .contract-header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .contract-header p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    .contract-body {
+      padding: 28px 32px 8px;
+    }
+
+    .contract-intro {
+      background: #f8fcfc;
+      border: 1px solid #dff3f4;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 24px;
+      color: #334155;
+      line-height: 1.65;
+    }
+
+    .clause {
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #edf2f5;
+    }
+
+    .clause:last-child {
+      border-bottom: none;
+      margin-bottom: 10px;
+    }
+
+    .clause h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      color: #0f172a;
+    }
+
+    .clause p,
+    .clause li {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #334155;
+    }
+
+    .clause ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .warning-box {
+      background: #fff8e8;
+      border: 1px solid #fde7b0;
+      color: #7a5b00;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 18px 0 6px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .contract-footer {
+      padding: 24px 32px 32px;
+      border-top: 1px solid #eef3f6;
+      background: #fcfefe;
+    }
+
+    .client-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-group label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #344054;
+    }
+
+    .field-group input {
+      width: 100%;
+      height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s ease;
+      background: #fff;
+    }
+
+    .field-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(17, 179, 189, 0.12);
+    }
+
+    .agree-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #f7fafc;
+      border: 1px solid #e7eef3;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 8px 0 18px;
+    }
+
+    .agree-box input[type="checkbox"] {
+      margin-top: 2px;
+      transform: scale(1.15);
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .agree-box label {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #334155;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      height: 46px;
+      padding: 0 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #edf6f7;
+      color: #0f6e75;
+    }
+
+    .btn-secondary:hover {
+      background: #dff1f3;
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .feedback {
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .feedback.success {
+      display: block;
+      color: var(--success);
+    }
+
+    .feedback.error {
+      display: block;
+      color: var(--danger);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 14px;
+      }
+
+      .contract-header,
+      .contract-body,
+      .contract-footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .contract-header h1 {
+        font-size: 22px;
+      }
+
+      .client-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contract-wrap">
+    <div class="contract-card">
+      <div class="contract-header">
+        <div class="contract-badge">Pacotes • Termo de Adesão</div>
+        <h1>Contrato de Regras do Pacote</h1>
+        <p>
+          Leia atentamente as condições de uso, reagendamento e validade dos serviços
+          contratados no pacote.
+        </p>
+      </div>
+
+      <div class="contract-body">
+        <div class="contract-intro">
+          Ao contratar um pacote de serviços, o cliente declara estar ciente das regras
+          operacionais do estabelecimento, especialmente em relação a agendamentos,
+          reagendamentos, faltas e utilização dos serviços dentro do período contratado.
+        </div>
+
+        <div class="clause">
+          <h3>1. Do pacote de serviços</h3>
+          <p>
+            O pacote contratado contempla serviços recorrentes previamente definidos,
+            conforme plano escolhido no momento da contratação.
+          </p>
+        </div>
+
+        <div class="clause">
+          <h3>2. Do agendamento</h3>
+          <p>
+            Os atendimentos serão realizados mediante agendamento prévio, respeitando os
+            dias e horários combinados no ato da contratação.
+          </p>
+        </div>
+
+        <div class="clause">
+          <h3>3. Do reagendamento</h3>
+          <p>O cliente poderá solicitar alteração de data e/ou horário do atendimento desde que:</p>
+          <ul>
+            <li>
+              a solicitação seja feita com <span class="highlight">mínimo de 24 horas de antecedência</span>;
+            </li>
+            <li>
+              exista <span class="highlight">slot disponível</span> para o novo horário desejado;
+            </li>
+            <li>
+              o reagendamento seja realizado <span class="highlight">dentro da mesma semana</span>
+              do agendamento original.
+            </li>
+          </ul>
+        </div>
+
+        <div class="clause">
+          <h3>4. Do não comparecimento</h3>
+          <p>
+            Caso o cliente não compareça ao atendimento e não tenha solicitado o reagendamento
+            no prazo mínimo de 24 horas, o serviço será considerado
+            <span class="highlight">utilizado/perdido</span>, sem direito a reposição.
+          </p>
+        </div>
+
+        <div class="clause">
+          <h3>5. Limites do reagendamento</h3>
+          <p>
+            Não será permitido transferir o serviço para semanas posteriores. O reagendamento
+            somente poderá ocorrer dentro da mesma semana do atendimento original, sempre sujeito
+            à disponibilidade da agenda.
+          </p>
+        </div>
+
+        <div class="clause">
+          <h3>6. Da disponibilidade de agenda</h3>
+          <p>
+            Todos os reagendamentos dependerão da disponibilidade real da agenda no momento da solicitação.
+          </p>
+        </div>
+
+        <div class="clause">
+          <h3>7. Da validade do pacote</h3>
+          <p>
+            Os serviços devem ser utilizados dentro do período contratado e não são cumulativos
+            para períodos posteriores, salvo regra comercial formalmente definida pelo estabelecimento.
+          </p>
+        </div>
+
+        <div class="warning-box">
+          Importante: pedidos fora do prazo de 24 horas ou solicitações para semanas posteriores
+          não gerarão reposição automática do serviço.
+        </div>
+      </div>
+
+      <div class="contract-footer">
+        <form id="packageTermsForm">
+          <div class="client-fields">
+            <div class="field-group">
+              <label for="clientName">Nome do cliente</label>
+              <input type="text" id="clientName" name="clientName" placeholder="Digite o nome do cliente" required />
+            </div>
+
+            <div class="field-group">
+              <label for="packageName">Nome do pacote</label>
+              <input type="text" id="packageName" name="packageName" placeholder="Ex: Pacote 4 Banhos Mensais" required />
+            </div>
+          </div>
+
+          <div class="agree-box">
+            <input type="checkbox" id="acceptedTerms" name="acceptedTerms" />
+            <label for="acceptedTerms">
+              <strong>Li e concordo com os termos</strong>, regras de reagendamento,
+              disponibilidade de agenda e validade do pacote contratado.
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" id="saveTermsBtn">
+              Salvar aceite
+            </button>
+
+            <button type="button" class="btn btn-secondary" id="printBtn">
+              Imprimir termo
+            </button>
+          </div>
+
+          <div id="formFeedback" class="feedback"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("packageTermsForm");
+    const acceptedTerms = document.getElementById("acceptedTerms");
+    const feedback = document.getElementById("formFeedback");
+    const printBtn = document.getElementById("printBtn");
+
+    function showFeedback(type, message) {
+      feedback.className = "feedback " + type;
+      feedback.textContent = message;
+    }
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const clientName = document.getElementById("clientName").value.trim();
+      const packageName = document.getElementById("packageName").value.trim();
+
+      if (!acceptedTerms.checked) {
+        showFeedback("error", "Você precisa aceitar os termos antes de salvar.");
+        return;
+      }
+
+      const payload = {
+        client_name: clientName,
+        package_name: packageName,
+        accepted_terms: true,
+        accepted_terms_at: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch("/api/package-terms/accept", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error("Falha ao salvar o aceite.");
+        }
+
+        showFeedback("success", "Aceite salvo com sucesso.");
+        form.reset();
+      } catch (error) {
+        showFeedback("error", error.message || "Erro ao salvar o aceite.");
+      }
+    });
+
+    printBtn.addEventListener("click", function () {
+      window.print();
+    });
+  </script>
+</body>
+</html>

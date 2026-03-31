@@ -1,0 +1,1 @@
+Fluxo de venda de pacotes ajustado com filtro de pets por porte, contrato antes do pagamento, impressão do termo, confirmação com agenda detalhada e exclusão de catálogo/vendas.

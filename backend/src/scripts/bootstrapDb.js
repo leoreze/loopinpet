@@ -76,5 +76,22 @@ export async function ensureBaseSchema() {
     create index if not exists idx_tenant_users_tenant_id on tenant_users(tenant_id);
     create index if not exists idx_tenants_status on tenants(status);
     create index if not exists idx_tenant_settings_tenant_id on tenant_settings(tenant_id);
+
+    create table if not exists tenant_operating_hours (
+      id uuid primary key default gen_random_uuid(),
+      tenant_id uuid not null references tenants(id) on delete cascade,
+      dow integer not null check (dow between 0 and 6),
+      day_label varchar(20) not null,
+      is_closed boolean not null default false,
+      open_time varchar(5) not null default '08:30',
+      close_time varchar(5) not null default '17:30',
+      slot_capacity integer not null default 10,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now(),
+      unique (tenant_id, dow)
+    );
+
+    create index if not exists idx_tenant_operating_hours_tenant_id on tenant_operating_hours(tenant_id);
+
   `);
 }

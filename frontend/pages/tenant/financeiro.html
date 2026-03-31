@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoopinPet • Financeiro</title>
+  <link rel="stylesheet" href="../../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/admin-crud.css" />
+  <style>
+    .finance-shell{display:grid;gap:20px}
+    .finance-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:start}
+    .finance-stack{display:grid;gap:20px}
+    .finance-surface{background:var(--surface-card,#fff);box-shadow:var(--card-shadow-strong,0 24px 60px rgba(15,23,42,.08));border:1px solid var(--border-strong,rgba(148,163,184,.18))}
+    .finance-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+    .finance-kpi{padding:18px;border-radius:20px;display:grid;gap:6px}
+    .finance-kpi .kpi-label{font-size:.84rem;color:var(--text-soft,#64748b);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .finance-kpi .kpi-value{font-size:1.5rem;font-weight:800;color:var(--text-strong,#0f172a)}
+    .finance-kpi .kpi-foot{font-size:.9rem;color:var(--text-soft,#64748b)}
+    .finance-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;align-items:end;min-height:220px}
+    .finance-bar-item{display:grid;gap:10px;justify-items:center}
+    .finance-bar{width:100%;border-radius:18px 18px 12px 12px;background:linear-gradient(180deg,var(--accent,#1F8560),var(--accent-dark,#146c50));min-height:16px;box-shadow:0 20px 40px rgba(15,23,42,.12)}
+    .finance-bar-item span{font-size:.82rem;color:var(--text-soft,#64748b)}
+    .finance-list{display:grid;gap:12px}
+    .finance-list-item{display:flex;justify-content:space-between;gap:14px;padding:14px 16px;border-radius:18px;background:var(--surface-card-alt,#eef4f8);border:1px solid var(--border-strong,rgba(148,163,184,.18))}
+    .finance-list-item strong{display:block;color:var(--text-strong,#0f172a)}
+    .finance-list-item span{display:block;color:var(--text-soft,#64748b);font-size:.88rem}
+    .finance-amount{font-weight:800;color:var(--text-strong,#0f172a);text-align:right}
+    .finance-table td small{display:block;color:var(--text-soft,#64748b);font-size:.8rem;margin-top:4px}
+    .finance-table td strong{color:var(--text-strong,#0f172a)}
+    .finance-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--accent-soft,rgba(31,133,96,.14));color:var(--accent,#1F8560);font-weight:700}
+    .finance-empty{padding:18px;border-radius:18px;background:var(--surface-card-alt,#eef4f8);color:var(--text-soft,#64748b)}
+    .finance-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+    .finance-card-head p{margin:6px 0 0;color:var(--text-soft,#64748b)}
+    .finance-table-wrap{max-height:480px;overflow:auto}
+    @media (max-width:1400px){.finance-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.finance-grid{grid-template-columns:1fr}}
+    @media (max-width:860px){.finance-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.finance-bars{grid-template-columns:repeat(7,minmax(32px,1fr))}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo sidebar-logo--boxed"><div class="sidebar-logo-header"><button class="sidebar-brand-toggle" type="button" data-sidebar-toggle aria-label="Recolher ou expandir menu" aria-expanded="true"><div class="sidebar-brand-badge"><img class="sidebar-brand-full" data-tenant-logo src="../../assets/logo-loopinpet.png" alt="LoopinPet" /><img class="sidebar-brand-icon" data-tenant-logo-icon src="../../assets/icon_loopinpet.png" alt="LoopinPet" /></div></button></div></div>
+      <div class="sidebar-menu"></div>
+      <div class="sidebar-footer sidebar-footer-branding"><div class="sidebar-footer-line"></div><div class="sidebar-footer-brand" data-footer-brand-toggle aria-label="White-label ativo"><div class="sidebar-footer-brand-badge"><img class="sidebar-footer-brand-full" src="../../assets/logo-loopinpet.png" alt="LoopinPet" /><img class="sidebar-footer-brand-icon" src="../../assets/icon_loopinpet.png" alt="LoopinPet" /></div><div class="sidebar-footer-brand-copy"><strong>LoopinPet</strong><span>MVP 1.0</span></div></div></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="topbar-left"><div class="topbar-heading"><div class="page-title">Financeiro</div><div class="page-subtitle">Receita, recebimentos, inadimplência e cobrança recorrente da operação.</div></div></div><div class="topbar-right"><span class="badge-plan" data-tenant-plan>Plano Pro</span><div class="user-menu" data-user-menu><button class="user-chip user-chip--button" type="button" data-user-menu-toggle aria-expanded="false"><span class="user-avatar" data-user-initials>LP</span><span data-user-name>Administrador</span><span class="user-chip-caret" aria-hidden="true">▾</span></button><div class="user-dropdown" data-user-dropdown><div class="user-dropdown-header"><strong data-user-name>Administrador</strong><span data-tenant-brand>LoopinPet</span></div><a href="/tenant/meu-perfil">👤 Meu Perfil</a><a href="/tenant/suporte">💬 Suporte</a><a href="/tenant/termos-de-uso">📄 Termos de Uso</a><a href="/tenant/politicas-de-privacidade">🔒 Políticas de Privacidade</a><button type="button" data-action="logout" class="danger-item">⎋ Sair</button></div></div></div></header>
+      <section class="content finance-shell">
+        <div class="page-hero-card card finance-surface"><div><div class="section-title">Centro financeiro operacional</div><p class="soft-line">Tudo o que mais importa agora: o que entrou, o que ainda falta cobrar, previsão curta de caixa e recorrência de pacotes.</p></div><div class="panel-actions"><a class="btn-primary" href="/tenant/agenda">Abrir agenda</a><a class="btn-secondary" href="/tenant/pacotes">Cobranças recorrentes</a></div></div>
+        <div class="finance-kpis">
+          <div class="card finance-surface finance-kpi"><div class="kpi-label">A receber em aberto</div><div class="kpi-value" data-finance-open>R$ 0,00</div><div class="kpi-foot" data-finance-open-foot>Itens pendentes</div></div>
+          <div class="card finance-surface finance-kpi"><div class="kpi-label">Recebido no mês</div><div class="kpi-value" data-finance-received-month>R$ 0,00</div><div class="kpi-foot">Caixa confirmado neste mês</div></div>
+          <div class="card finance-surface finance-kpi"><div class="kpi-label">Previsto 7 dias</div><div class="kpi-value" data-finance-forecast>R$ 0,00</div><div class="kpi-foot">Agenda futura + recorrência</div></div>
+          <div class="card finance-surface finance-kpi"><div class="kpi-label">Ticket médio</div><div class="kpi-value" data-finance-ticket>R$ 0,00</div><div class="kpi-foot">Últimos 30 dias</div></div>
+          <div class="card finance-surface finance-kpi"><div class="kpi-label">Pacotes no mês</div><div class="kpi-value" data-finance-packages-month>R$ 0,00</div><div class="kpi-foot">Receita recorrente recebida</div></div>
+        </div>
+        <div class="finance-grid">
+          <div class="finance-stack">
+            <div class="card finance-surface">
+              <div class="finance-card-head"><div><div class="section-title">Fluxo recebido nos últimos 7 dias</div><p>Leitura rápida do caixa confirmado.</p></div><span class="finance-pill">Receitas pagas</span></div>
+              <div class="finance-bars" data-finance-bars></div>
+            </div>
+            <div class="card finance-surface">
+              <div class="finance-card-head"><div><div class="section-title">Transações recentes</div><p>Agenda e pacotes consolidados em um mesmo fluxo.</p></div></div>
+              <div class="finance-table-wrap">
+                <table class="table finance-table">
+                  <thead><tr><th>Referência</th><th>Cliente</th><th>Pagamento</th><th>Valor</th></tr></thead>
+                  <tbody data-finance-transactions><tr><td colspan="4" class="table-empty">Carregando transações...</td></tr></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="finance-stack">
+            <div class="card finance-surface">
+              <div class="finance-card-head"><div><div class="section-title">Formas de pagamento</div><p>Distribuição do valor pago por método.</p></div></div>
+              <div class="finance-list" data-finance-methods></div>
+            </div>
+            <div class="card finance-surface">
+              <div class="finance-card-head"><div><div class="section-title">Recebíveis por status</div><p>Saldo e volume operacional do financeiro.</p></div></div>
+              <div class="finance-list" data-finance-statuses></div>
+            </div>
+            <div class="card finance-surface">
+              <div class="finance-card-head"><div><div class="section-title">Cobranças recorrentes</div><p>Pacotes vendidos acompanhados do próximo ciclo e método atual.</p></div></div>
+              <div class="finance-table-wrap">
+                <table class="table finance-table">
+                  <thead><tr><th>Pacote</th><th>Cliente</th><th>Pagamento</th><th>Total</th></tr></thead>
+                  <tbody data-finance-packages><tr><td colspan="4" class="table-empty">Carregando pacotes...</td></tr></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { navigation } from '../../config/navigation.js';
+    import { buildSidebar, initSidebarShell } from '../../components/sidebar.js';
+    import { requireTenantAuth, hydrateTenantUi } from '../../assets/js/auth.js';
+    await requireTenantAuth();
+    buildSidebar(navigation.tenant_admin);
+    initSidebarShell();
+    hydrateTenantUi();
+  </script>
+  <script type="module" src="../../assets/js/finance.js"></script>
+</body>
+</html>

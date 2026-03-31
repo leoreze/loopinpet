@@ -1,5 +1,102 @@
 const STORAGE_KEY = 'loopinpet.auth';
 
+
+function clamp(value, min = 0, max = 255) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function normalizeHex(color, fallback = '#1F8560') {
+  const raw = String(color || '').trim();
+  if (/^#[0-9a-fA-F]{3}$/.test(raw)) {
+    return '#' + raw.slice(1).split('').map((part) => part + part).join('');
+  }
+  return /^#[0-9a-fA-F]{6}$/.test(raw) ? raw : fallback;
+}
+
+function hexToRgb(color) {
+  const hex = normalizeHex(color).slice(1);
+  return {
+    r: Number.parseInt(hex.slice(0, 2), 16),
+    g: Number.parseInt(hex.slice(2, 4), 16),
+    b: Number.parseInt(hex.slice(4, 6), 16)
+  };
+}
+
+function rgbToHex(rgb) {
+  return `#${[rgb.r, rgb.g, rgb.b].map((value) => clamp(Math.round(value)).toString(16).padStart(2, '0')).join('')}`;
+}
+
+function mixHex(color, mixWith = '#000000', ratio = 0.2) {
+  const base = hexToRgb(color);
+  const target = hexToRgb(mixWith);
+  const clamped = Math.max(0, Math.min(1, Number(ratio) || 0));
+  return rgbToHex({
+    r: base.r + (target.r - base.r) * clamped,
+    g: base.g + (target.g - base.g) * clamped,
+    b: base.b + (target.b - base.b) * clamped
+  });
+}
+
+function deriveSurfacePalette(primary, secondary, accent, surfaceMode = 'light') {
+  const normalizedPrimary = normalizeHex(primary, '#1F8560');
+  const normalizedSecondary = normalizeHex(secondary, '#E67315');
+  const normalizedAccent = normalizeHex(accent, '#8F8866');
+  if (surfaceMode !== 'dark') {
+    return {
+      accent: normalizedPrimary,
+      accentDark: mixHex(normalizedSecondary, '#0f172a', 0.14),
+      accentSoft: `${normalizedPrimary}1A`,
+      brandHighlight: normalizedAccent,
+      sidebarStart: normalizedAccent,
+      sidebarEnd: normalizedSecondary,
+      shell: '#f4f7fb',
+      surface: '#ffffff',
+      surfaceAlt: '#eef4f8',
+      text: '#0f172a',
+      textSoft: '#64748b',
+      border: 'rgba(148,163,184,.18)',
+      cardShadow: '0 24px 60px rgba(15,23,42,.08)',
+      topbar: 'rgba(255,255,255,.92)'
+    };
+  }
+  return {
+    accent: mixHex(normalizedPrimary, '#ffffff', 0.1),
+    accentDark: mixHex(normalizedSecondary, '#000000', 0.42),
+    accentSoft: `${mixHex(normalizedPrimary, '#000000', 0.55)}33`,
+    brandHighlight: mixHex(normalizedAccent, '#000000', 0.28),
+    sidebarStart: mixHex(normalizedAccent, '#020617', 0.62),
+    sidebarEnd: mixHex(normalizedSecondary, '#020617', 0.7),
+    shell: mixHex(normalizedAccent, '#020617', 0.92),
+    surface: mixHex(normalizedPrimary, '#020617', 0.82),
+    surfaceAlt: mixHex(normalizedSecondary, '#020617', 0.86),
+    text: '#f8fafc',
+    textSoft: '#cbd5e1',
+    border: 'rgba(148,163,184,.22)',
+    cardShadow: '0 28px 80px rgba(2,6,23,.45)',
+    topbar: 'rgba(9,14,28,.92)'
+  };
+}
+
+function applyPaletteTokens(palette) {
+  if (!palette || typeof document === 'undefined') return;
+  const root = document.documentElement;
+  root.style.setProperty('--accent', palette.accent);
+  root.style.setProperty('--accent-dark', palette.accentDark);
+  root.style.setProperty('--accent-soft', palette.accentSoft);
+  root.style.setProperty('--brand-highlight', palette.brandHighlight);
+  root.style.setProperty('--sidebar-bg-start', palette.sidebarStart);
+  root.style.setProperty('--sidebar-bg-end', palette.sidebarEnd);
+  root.style.setProperty('--shell-bg', palette.shell);
+  root.style.setProperty('--surface-card', palette.surface);
+  root.style.setProperty('--surface-card-alt', palette.surfaceAlt);
+  root.style.setProperty('--text-strong', palette.text);
+  root.style.setProperty('--text-soft', palette.textSoft);
+  root.style.setProperty('--border-strong', palette.border);
+  root.style.setProperty('--card-shadow-strong', palette.cardShadow);
+  root.style.setProperty('--topbar-bg', palette.topbar);
+}
+
+
 export function saveAuth(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
@@ -119,12 +216,8 @@ export function applyBrandingTheme() {
   const logo = tenant.logo_url || '../../assets/logo-loopinpet.png';
   const logoIcon = tenant.favicon_url || tenant.logo_url || '../../assets/icon_loopinpet.png';
 
-  document.documentElement.style.setProperty('--accent', primary);
-  document.documentElement.style.setProperty('--accent-dark', secondary);
-  document.documentElement.style.setProperty('--accent-soft', `${primary}1A`);
-  document.documentElement.style.setProperty('--brand-highlight', accent);
-  document.documentElement.style.setProperty('--sidebar-bg-start', accent);
-  document.documentElement.style.setProperty('--sidebar-bg-end', secondary);
+  const palette = deriveSurfacePalette(primary, secondary, accent, settings.surface_mode || 'light');
+  applyPaletteTokens(palette);
 
   if (settings.surface_mode === 'dark') {
     document.body.classList.add('theme-dark');

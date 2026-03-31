@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="../../assets/css/tokens.css" />
   <link rel="stylesheet" href="../../assets/css/layout.css" />
   <link rel="stylesheet" href="../../assets/css/tutores.css" />
+<style>[data-doc-modal] .modal-card{max-height:min(86vh,920px);overflow:hidden}[data-doc-modal] .modal-body{flex:1;min-height:0;overflow:auto}[data-doc-modal] .modal-card--document{display:flex;flex-direction:column}[data-payment-edit-modal] .modal-card{max-width:520px}[data-payment-edit-modal] .modal-footer--inner .form-save{min-width:auto;padding-inline:14px;font-size:13px}</style>
 </head>
 <body>
   <div class="app">
@@ -309,6 +310,45 @@
     </div>
   </div>
 
+
+  <div class="modal-shell" data-payment-edit-modal>
+    <div class="modal-card modal-card--payment-edit">
+      <div class="modal-header">
+        <div class="breadcrumb">Clientes → Pagamentos → Editar</div>
+        <button class="modal-close" type="button" data-payment-edit-close>×</button>
+      </div>
+      <form class="modal-body payment-edit-form" data-payment-edit-form>
+        <input type="hidden" name="id" />
+        <div class="payment-edit-grid">
+          <div class="field">
+            <label>Status do pagamento</label>
+            <select name="payment_status" required>
+              <option value="pendente">Pendente</option>
+              <option value="pago">Pago</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Forma de pagamento</label>
+            <select name="payment_method">
+              <option value="">Selecione</option>
+              <option value="pix">Pix</option>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="credito">Cartão de crédito</option>
+              <option value="debito">Cartão de débito</option>
+              <option value="transferencia">Transferência</option>
+              <option value="boleto">Boleto</option>
+            </select>
+          </div>
+        </div>
+        <div class="history-line">Ao salvar, o modal principal volta atualizado e o documento muda automaticamente entre comanda e recibo conforme o pagamento.</div>
+        <div class="modal-footer modal-footer--inner modal-footer--split">
+          <button class="form-save form-save--ghost" type="button" data-payment-edit-print>PDF</button>
+          <button class="form-save" type="submit">SALVAR</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="toast" data-toast></div>
 
   <script type="module">
@@ -323,5 +363,17 @@
     hydrateTenantUi();
     await initTutorCrud();
   </script>
+
+
+  <div class="modal-shell" data-doc-modal>
+    <div class="modal-card modal-card--document">
+      <div class="modal-header">
+        <div class="breadcrumb">Clientes → Documento</div>
+        <button class="modal-close" type="button" data-doc-close>×</button>
+      </div>
+      <div class="modal-body" data-doc-body></div>
+    </div>
+  </div>
+
 </body>
 </html>

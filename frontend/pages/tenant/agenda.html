@@ -86,33 +86,16 @@
             <div class="notification-dropdown" data-notification-dropdown>
               <div class="notification-header">
                 <strong>Notificações</strong>
-                <span class="notification-chip">IA + Sistema</span>
+                <span class="notification-chip" data-notification-chip>IA + Sistema</span>
               </div>
-
-              <div class="notification-item">
-                <span class="notification-icon">🤖</span>
-                <div>
-                  <strong>Insight da IA</strong>
-                  <p>Terça e quarta seguem com ociosidade na agenda. Ative uma campanha de reativação para clientes inativos.</p>
-                  <small>Há 5 min</small>
-                </div>
-              </div>
-
-              <div class="notification-item">
-                <span class="notification-icon">🔔</span>
-                <div>
-                  <strong>Lembrete operacional</strong>
-                  <p>Existem 3 sessões aguardando confirmação de pagamento no agendamento on-line.</p>
-                  <small>Há 18 min</small>
-                </div>
-              </div>
-
-              <div class="notification-item">
-                <span class="notification-icon">📈</span>
-                <div>
-                  <strong>Oportunidade de receita</strong>
-                  <p>O sistema identificou 12 clientes elegíveis para pacote recorrente neste mês.</p>
-                  <small>Hoje</small>
+              <div data-notification-list>
+                <div class="notification-item">
+                  <span class="notification-icon">🤖</span>
+                  <div>
+                    <strong>Preparando alertas automáticos</strong>
+                    <p>O sistema está analisando a agenda para sugerir ações operacionais e comerciais.</p>
+                    <small>Agora</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,47 +122,45 @@
         </div>
       </header>
 
-      <section class="content">
-        <div class="agenda-toolbar">
-          <div class="agenda-toolbar-left">
-            <input id="search-input" class="search-input" placeholder="Buscar tutor, pet, telefone ou serviço..." />
+      <section class="content agenda-page">
+        <div class="agenda-summary-grid" id="agenda-summary"></div>
 
-            <select id="filter-status" class="filter">
-              <option value="">Todos status</option>
-              <option value="confirmado">Confirmado</option>
-              <option value="pendente">Pendente</option>
-              <option value="checkin">Check-in</option>
-              <option value="concluido">Concluído</option>
-            </select>
-
-            <select id="filter-service" class="filter">
-              <option value="">Todos serviços</option>
-              <option value="Banho">Banho</option>
-              <option value="Banho e Tosa">Banho e Tosa</option>
-              <option value="Day Care">Day Care</option>
-              <option value="Hospedagem">Hospedagem</option>
-              <option value="Hidratação">Hidratação</option>
-            </select>
-
-            <select id="filter-staff" class="filter">
-              <option value="">Todos colaboradores</option>
-              <option value="João">João</option>
-              <option value="Maria">Maria</option>
-              <option value="Patrícia">Patrícia</option>
-            </select>
+        <div class="agenda-toolbar agenda-toolbar--stacked">
+          <div class="agenda-toolbar-row agenda-toolbar-row--flow">
+            <div class="agenda-meta-flow" id="session-flow"></div>
           </div>
 
-          <div class="agenda-toolbar-right">
-            <button class="btn-primary" id="btn-new-appointment" type="button">+ Novo agendamento</button>
-            <button class="date-nav" id="prev-period">◀</button>
-            <div class="current-period" id="current-period">Hoje</div>
-            <button class="date-nav" id="next-period">▶</button>
+          <div class="agenda-toolbar-row agenda-toolbar-row--filters">
+            <div class="agenda-toolbar-left agenda-toolbar-left--singleline agenda-toolbar-left--crud">
+              <input id="search-input" class="search-input" placeholder="Buscar por WhatsApp, cliente, pet ou serviço..." />
+              <select id="filter-status" class="filter"><option value="">Todos status</option></select>
+              <select id="filter-staff" class="filter"><option value="">Todos colaboradores</option></select>
+            </div>
 
-            <div class="view-switch">
-              <button class="view-btn active" data-view="day">Diário</button>
-              <button class="view-btn" data-view="week">Semanal</button>
-              <button class="view-btn" data-view="month">Mensal</button>
-              <button class="view-btn" data-view="cards">Cards</button>
+            <div class="agenda-toolbar-right agenda-toolbar-right--crud">
+              <button class="btn-primary" id="btn-new-appointment" type="button">+ Novo Agendamento</button>
+            </div>
+          </div>
+
+          <div class="agenda-toolbar-row agenda-toolbar-row--view">
+            <div class="agenda-toolbar-left agenda-toolbar-left--view-controls">
+              <button class="date-nav" id="prev-period" type="button" aria-label="Dia anterior">◀</button>
+              <label class="agenda-date-picker" aria-label="Selecionar data">
+                <input id="agenda-date-picker" type="date" />
+                <span class="current-period" id="current-period">Hoje</span>
+              </label>
+              <button class="date-nav" id="next-period" type="button" aria-label="Próximo dia">▶</button>
+              <button class="btn-secondary btn-today" id="btn-today" type="button">Hoje</button>
+              <button class="btn-secondary btn-date-picker" id="btn-date-picker" type="button" aria-label="Escolher data">📅</button>
+            </div>
+
+            <div class="agenda-toolbar-right agenda-toolbar-right--view-switch">
+              <div class="view-switch">
+                <button class="view-btn active" data-view="day">Diário</button>
+                <button class="view-btn" data-view="week">Semanal</button>
+                <button class="view-btn" data-view="month">Mensal</button>
+                <button class="view-btn" data-view="cards">Cards</button>
+              </div>
             </div>
           </div>
         </div>
@@ -190,25 +171,204 @@
   </div>
 
 
+  <div class="agenda-ai-widget" data-ai-widget>
+    <button class="agenda-ai-widget__fab" type="button" data-ai-widget-toggle aria-expanded="false" aria-label="Abrir assistente de insights">🤖</button>
+    <div class="agenda-ai-widget__panel" data-ai-widget-panel hidden>
+      <div class="agenda-ai-widget__header">
+        <div>
+          <strong>Assistente IA da Agenda</strong>
+          <small>Insights operacionais em tempo real</small>
+        </div>
+        <button type="button" class="agenda-ai-widget__close" data-ai-widget-close aria-label="Fechar assistente">✕</button>
+      </div>
+      <div class="agenda-ai-widget__messages" data-ai-widget-messages></div>
+      <div class="agenda-ai-widget__actions">
+        <button type="button" data-ai-prompt="slots">Preencher slots</button>
+        <button type="button" data-ai-prompt="reativacao">Recuperar clientes</button>
+        <button type="button" data-ai-prompt="receita">Aumentar ticket</button>
+      </div>
+      <form class="agenda-ai-widget__composer" data-ai-widget-form>
+        <input type="text" class="agenda-ai-widget__input" data-ai-widget-input placeholder="Pergunte sobre slots, clientes inativos, agenda da semana..." maxlength="500" />
+        <button type="submit" class="agenda-ai-widget__send" data-ai-widget-send>Enviar</button>
+      </form>
+    </div>
+  </div>
+
   <div id="appointment-modal" class="modal-overlay">
-    <div class="modal-card modal-large">
+    <div class="modal-card modal-xl agenda-modal-card">
       <div class="modal-header">
         <div>
-          <h3 id="modal-title">Detalhes do Atendimento</h3>
-          <p id="modal-subtitle">Ficha completa do pet e do tutor</p>
+          <h3 id="modal-title">Novo agendamento</h3>
+          <p id="modal-subtitle">Comece pelo WhatsApp e monte a comanda do atendimento.</p>
         </div>
-        <button class="modal-close" id="modal-close-btn">✕</button>
+        <button class="modal-close" id="modal-close-btn" type="button">✕</button>
       </div>
 
-      <div class="modal-body" id="modal-content"></div>
+      <div class="modal-body">
+        <form id="appointment-form" class="agenda-form-grid">
+        <div class="agenda-form-alert" id="appointment-form-alert" hidden></div>
+
+          <div class="form-section form-section--span-2">
+            <div class="form-grid-inline form-grid-inline--3">
+              <label class="field">
+                <span>WhatsApp ou nome</span>
+                <input id="appointment-whatsapp" type="text" placeholder="(16) 99999-9999" inputmode="numeric" maxlength="16" minlength="14" required />
+              </label>
+              <label class="field field--grow">
+                <span>Cliente</span>
+                <input id="appointment-client-name" type="text" placeholder="Nome do cliente" minlength="3" required />
+                <input id="appointment-tutor-id" type="hidden" />
+              </label>
+              <div class="field field--action">
+                <span>&nbsp;</span>
+                <button class="btn-secondary" id="btn-find-customer" type="button">Buscar cliente</button>
+              </div>
+            </div>
+            <div class="agenda-inline-help" id="customer-lookup-feedback">Digite o WhatsApp ou o nome para buscar cliente e pets já cadastrados.</div>
+          </div>
+
+          <div class="form-section form-section--span-2">
+            <div class="section-title-row">
+              <div>
+                <h4>Pets e serviços do agendamento</h4>
+                <p class="section-help">Cada pet gera um agendamento separado na agenda, cards e calendário.</p>
+              </div>
+              <button class="btn-secondary" id="btn-add-appointment-group" type="button">+ Adicionar outro pet</button>
+            </div>
+            <div id="appointment-groups" class="appointment-groups"></div>
+          </div>
+
+          <div class="form-section">
+            <label class="field">
+              <span>Sessão / Status</span>
+              <select id="appointment-status" required></select>
+            </label>
+          </div>
+
+          <div class="form-section">
+            <label class="field">
+              <span>Colaborador</span>
+              <select id="appointment-staff" required></select>
+            </label>
+          </div>
+
+          <div class="form-section">
+            <label class="field">
+              <span>Data</span>
+              <input id="appointment-date" type="date" required />
+            </label>
+          </div>
+
+          <div class="form-section">
+            <label class="field">
+              <span>Hora</span>
+              <input id="appointment-time" type="time" step="1800" required />
+            </label>
+          </div>
+
+          <div class="form-section">
+            <label class="field">
+              <span>Pagamento</span>
+              <select id="appointment-payment-status" required>
+                <option value="pendente">Pendente</option>
+                <option value="pago">Pago</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-section">
+            <label class="field">
+              <span>Forma de pagamento</span>
+              <select id="appointment-payment-method">
+                <option value="">Selecionar</option>
+                <option value="pix">Pix</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="debito">Cartão de débito</option>
+                <option value="credito">Cartão de crédito</option>
+                <option value="transferencia">Transferência</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-section form-section--span-2">
+            <label class="field">
+              <span>Observações</span>
+              <textarea id="appointment-notes" rows="3" placeholder="Observações internas, instruções ou observações do tutor"></textarea>
+            </label>
+          </div>
+
+          <div class="form-section form-section--span-2">
+            <div class="agenda-command-card">
+              <div>
+                <strong>Comanda</strong>
+                <p id="appointment-command-summary">Selecione pets e serviços para gerar a comanda automaticamente.</p>
+              </div>
+              <button class="btn-secondary" id="btn-print-receipt" type="button">Imprimir comprovante</button>
+            </div>
+          </div>
+        </form>
+
+        <div id="appointment-details" class="agenda-details-view" hidden></div>
+      </div>
 
       <div class="modal-footer">
-        <button class="btn-secondary" id="modal-edit-btn">Editar</button>
-        <button class="btn-danger" id="modal-delete-btn">Excluir</button>
-        <button class="btn-primary" id="modal-checkin-btn">Check-in</button>
+        <button class="btn-secondary" id="modal-cancel-btn" type="button">Fechar</button>
+        <button class="btn-danger" id="modal-delete-btn" type="button">Cancelar agendamento</button>
+        <button class="btn-primary" id="modal-save-btn" type="button">Salvar agendamento</button>
       </div>
     </div>
   </div>
+
+  <div id="document-modal" class="modal-overlay">
+    <div class="modal-card modal-xl agenda-document-modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="document-modal-title">Comanda</h3>
+          <p id="document-modal-subtitle">Detalhamento completo do atendimento.</p>
+        </div>
+        <button class="modal-close" id="document-close-btn" type="button">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="document-content" class="agenda-document-sheet"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="document-close-footer-btn" type="button">Fechar</button>
+        <button class="btn-secondary" id="document-pdf-btn" type="button">Abrir PDF</button>
+        <button class="btn-primary" id="document-whatsapp-btn" type="button">Enviar para WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <template id="appointment-group-template">
+    <div class="appointment-group-card">
+      <div class="appointment-group-header">
+        <div>
+          <strong class="appointment-group-title">Pet do agendamento</strong>
+          <span class="appointment-group-subtitle">Selecione o pet e os serviços liberados para o porte cadastrado.</span>
+        </div>
+        <button class="icon-action remove-group" type="button">✕</button>
+      </div>
+      <div class="agenda-row-card agenda-row-card--pet">
+        <select class="pet-select"></select>
+        <div class="agenda-row-meta pet-meta"></div>
+      </div>
+      <div class="appointment-group-services">
+        <div class="section-title-row section-title-row--nested">
+          <h5>Serviços deste pet</h5>
+          <button class="btn-secondary add-service-to-group" type="button">+ Adicionar serviço</button>
+        </div>
+        <div class="service-rows agenda-repeater"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="service-row-template">
+    <div class="agenda-row-card agenda-row-card--service">
+      <select class="service-select"></select>
+      <div class="agenda-row-meta service-meta"></div>
+      <button class="icon-action remove-row" type="button">✕</button>
+    </div>
+  </template>
 
   <script type="module">
     import { navigation } from "../../config/navigation.js";

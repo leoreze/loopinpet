@@ -27,6 +27,8 @@ export async function initPetsPage() {
     metaKind: 'pet_types',
     metaItems: [],
     editingMeta: null,
+    tutorMode: 'select',
+    selectedTutor: null,
   };
 
   const toastEl = document.querySelector('[data-toast]');
@@ -47,6 +49,11 @@ export async function initPetsPage() {
   const typeSelect = form.querySelector('[name="pet_type_id"]');
   const sizeSelect = form.querySelector('[name="size_id"]');
   const tutorSelect = form.querySelector('[name="tutor_id"]');
+  const tutorModeButtons = Array.from(root.querySelectorAll('[data-tutor-mode]'));
+  const tutorPanels = Array.from(root.querySelectorAll('[data-tutor-panel]'));
+  const tutorSearchInput = root.querySelector('[data-tutor-search]');
+  const tutorResults = root.querySelector('[data-tutor-results]');
+  const tutorSelected = root.querySelector('[data-tutor-selected]');
 
   const toast = (message) => {
     if (!toastEl) return;
@@ -72,8 +79,64 @@ export async function initPetsPage() {
     `).join('');
   }
 
+  function formatTutorPhone(item) {
+    return item?.phone || item?.phone_secondary || '';
+  }
+
+  function renderTutorSelected() {
+    if (!tutorSelected) return;
+    const tutor = state.selectedTutor;
+    if (!tutor) {
+      tutorSelected.hidden = true;
+      tutorSelected.innerHTML = '';
+      return;
+    }
+    const phone = formatTutorPhone(tutor);
+    tutorSelected.hidden = false;
+    tutorSelected.innerHTML = `<span>Selecionado: <strong>${esc(tutor.full_name || tutor.name || '')}</strong>${phone ? ` • ${esc(phone)}` : ''}</span><button type="button" data-clear-tutor aria-label="Limpar tutor">×</button>`;
+  }
+
+  function getFilteredTutors(term) {
+    const q = String(term || '').trim().toLowerCase();
+    if (!q) return [];
+    return (state.meta.tutors || []).filter((item) => {
+      const name = String(item.full_name || item.name || '').toLowerCase();
+      const phone = String(formatTutorPhone(item)).toLowerCase();
+      return name.includes(q) || phone.includes(q);
+    }).slice(0, 8);
+  }
+
+  function renderTutorResults(term = '') {
+    if (!tutorResults) return;
+    const q = String(term || '').trim();
+    if (!q) {
+      tutorResults.innerHTML = '<div class="tutor-search-empty">Digite o nome ou o celular/WhatsApp do tutor.</div>';
+      return;
+    }
+    const items = getFilteredTutors(q);
+    if (!items.length) {
+      tutorResults.innerHTML = '<div class="tutor-search-empty">Nenhum tutor encontrado.</div>';
+      return;
+    }
+    tutorResults.innerHTML = items.map((item) => {
+      const phone = formatTutorPhone(item);
+      return `<button class="tutor-search-option" type="button" data-pick-tutor="${item.id}"><span><strong>${esc(item.full_name || item.name || '')}</strong><small>${phone ? esc(phone) : 'Sem telefone cadastrado'}</small></span><span>Selecionar</span></button>`;
+    }).join('');
+  }
+
+  function setTutorMode(mode) {
+    state.tutorMode = mode === 'search' ? 'search' : 'select';
+    tutorModeButtons.forEach((button) => button.classList.toggle('is-active', button.dataset.tutorMode === state.tutorMode));
+    tutorPanels.forEach((panel) => panel.classList.toggle('is-active', panel.dataset.tutorPanel === state.tutorMode));
+    if (state.tutorMode === 'search') {
+      renderTutorResults(tutorSearchInput?.value || '');
+      renderTutorSelected();
+    }
+  }
+
   function refreshMetaControls() {
     populateSelect(tutorSelect, state.meta.tutors, 'Selecione o tutor', (item) => item.full_name);
+    if (state.selectedTutor?.id) tutorSelect.value = state.selectedTutor.id;
     populateSelect(typeSelect, state.meta.pet_types, 'Selecione o tipo');
     populateSelect(sizeSelect, state.meta.pet_sizes, 'Selecione o porte');
     filterBreedOptions(typeSelect.value || '');
@@ -177,10 +240,15 @@ export async function initPetsPage() {
   function openPetModal(item = null) {
     modalTitle.textContent = item ? 'Editar pet' : 'Novo pet';
     form.reset();
+    state.selectedTutor = item ? (state.meta.tutors || []).find((entry) => entry.id === item.tutor_id) || null : null;
     form.elements.id.value = item?.id || '';
     refreshMetaControls();
     form.elements.name.value = item?.name || '';
     form.elements.tutor_id.value = item?.tutor_id || '';
+    if (tutorSearchInput) tutorSearchInput.value = '';
+    renderTutorResults('');
+    renderTutorSelected();
+    setTutorMode('select');
     form.elements.pet_type_id.value = item?.pet_type_id || '';
     filterBreedOptions(form.elements.pet_type_id.value);
     form.elements.breed_id.value = item?.breed_id || '';
@@ -202,7 +270,7 @@ export async function initPetsPage() {
     const payload = {
       id: formData.get('id'),
       name: formData.get('name'),
-      tutor_id: formData.get('tutor_id'),
+      tutor_id: state.tutorMode === 'search' ? (state.selectedTutor?.id || '') : formData.get('tutor_id'),
       pet_type_id: formData.get('pet_type_id'),
       breed_id: formData.get('breed_id'),
       size_id: formData.get('size_id'),
@@ -216,6 +284,10 @@ export async function initPetsPage() {
     payload.pet_type_name = state.meta.pet_types.find((item) => item.id === payload.pet_type_id)?.name || '';
     payload.breed_name = state.meta.pet_breeds.find((item) => item.id === payload.breed_id)?.name || '';
     payload.size_name = state.meta.pet_sizes.find((item) => item.id === payload.size_id)?.name || '';
+    if (!payload.tutor_id) {
+      toast('Selecione ou busque um tutor para o pet.');
+      return;
+    }
     if (payload.id) {
       await api.put(`/api/tenant/manage/pets/${payload.id}`, payload);
       toast('Pet atualizado com sucesso.');
@@ -278,6 +350,9 @@ export async function initPetsPage() {
     if (menuToggle) {
       state.openMenuId = state.openMenuId === menuToggle ? null : menuToggle;
       renderTable();
+      if (state.openMenuId) {
+        requestAnimationFrame(() => adjustCrudMenuDirection(document.querySelector(`[data-menu-toggle=\"${menuToggle}\"]`)));
+      }
       return;
     }
     if (edit) return openPetModal(state.items.find((item) => item.id === edit));
@@ -333,6 +408,23 @@ export async function initPetsPage() {
   root.querySelector('[data-meta-cancel]').addEventListener('click', closeMetaModal);
   metaModal.addEventListener('click', (event) => { if (event.target === metaModal) closeMetaModal(); });
   metaForm.addEventListener('submit', submitMeta);
+  tutorModeButtons.forEach((button) => {
+    button.addEventListener('click', () => setTutorMode(button.dataset.tutorMode));
+  });
+  tutorSearchInput?.addEventListener('input', () => renderTutorResults(tutorSearchInput.value));
+  tutorResults?.addEventListener('click', (event) => {
+    const id = event.target.closest('[data-pick-tutor]')?.dataset.pickTutor;
+    if (!id) return;
+    state.selectedTutor = (state.meta.tutors || []).find((item) => item.id === id) || null;
+    if (state.selectedTutor) tutorSelect.value = state.selectedTutor.id;
+    renderTutorSelected();
+  });
+  tutorSelected?.addEventListener('click', (event) => {
+    if (!event.target.closest('[data-clear-tutor]')) return;
+    state.selectedTutor = null;
+    tutorSelect.value = '';
+    renderTutorSelected();
+  });
 
   await loadMeta();
   await loadPets();
